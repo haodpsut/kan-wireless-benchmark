@@ -1,0 +1,7 @@
+variant,hp,params,nmse_mean,nmse_std
+fourier_K,2,1178,-14.42,0.048
+fourier_K,4,2330,-15.54,0.094
+fourier_K,8,4634,-17.142,0.12
+spline_grid,4,1152,-13.027,0.149
+spline_grid,6,1440,-14.043,0.129
+spline_grid,10,2016,-15.087,0.09

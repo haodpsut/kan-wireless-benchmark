@@ -1,0 +1,20 @@
+# dataset (public, download separately) -- do not commit 279MB
+data/
+# LaTeX build artifacts
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
+paper/*.synctex.gz
+paper/figs/*.log
+paper/figs/*.aux
+paper/*.log2
+paper/c*.log
+paper/bibtex.log
+# python
+__pycache__/
+*.pyc
+code/results/.ids-*.json
+# figure identity stores
+paper/figs/.methods_*.json

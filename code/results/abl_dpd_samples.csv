@@ -1,0 +1,9 @@
+ntrain,model,nmse_mean,nmse_std
+1000,KANfourier,-8.024,0.105
+1000,MLP,-7.797,0.199
+4000,KANfourier,-12.325,0.113
+4000,MLP,-11.959,0.501
+16000,KANfourier,-14.636,0.041
+16000,MLP,-15.435,0.11
+63995,KANfourier,-15.513,0.101
+63995,MLP,-16.272,0.121

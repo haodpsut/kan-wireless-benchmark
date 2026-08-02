@@ -1,0 +1,6 @@
+metric,value
+median_edge_R2_deg3,0.9983
+frac_edges_R2_gt_0.95,1.0
+nmse_full_db,-15.377
+nmse_symbolic_db,-14.106
+symbolic_degradation_db,1.271

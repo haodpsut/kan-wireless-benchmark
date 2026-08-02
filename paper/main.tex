@@ -530,9 +530,8 @@ nuance that qualitative ``plot a few edges'' demonstrations omit.
 \centering
 \includegraphics[width=\columnwidth]{fig_interp.pdf}
 \caption{Interpretability audit on the DPD KAN. The learned edges are simple (a cubic fits
-with median $R^2=0.998$), but distilling them into that symbolic form costs
-$\input{claims/interp_degradation_db}$~dB of NMSE: the interpretable model is not the
-performant one.}
+with median $R^2=0.998$), but distilling them into that symbolic form costs $1.17$~dB of
+NMSE: the interpretable model is not the performant one.}
 \label{fig:interp}
 \end{figure}
 
@@ -642,7 +641,7 @@ scarce ($\le 4$k examples); the ordering inverts only once data is plentiful.}
 \centering
 \includegraphics[width=\columnwidth]{fig_amc_snr.pdf}
 \caption{AMC accuracy resolved by SNR. The CNN leads throughout; among flat models the MLP
-wins only at low SNR, while the spline-KAN overtakes it above $\sim\input{claims/snr_crossover_db}$~dB. Reporting a single
+wins only at low SNR, while the spline-KAN overtakes it above $\sim 2$~dB. Reporting a single
 band hides this crossover.}
 \label{fig:snr}
 \end{figure}

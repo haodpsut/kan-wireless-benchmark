@@ -12,17 +12,18 @@
 \graphicspath{{figs/}}
 
 \begin{document}
-\title{When Does a Kolmogorov--Arnold Network Help in Wireless?\\
-A Parameter-Matched, Non-Saturated Benchmark}
+\title{When Do Kolmogorov--Arnold Networks Help in Wireless?\\
+A Matched-Capacity, Non-Saturated Benchmark}
 
-\author{\IEEEauthorblockN{Do Phuc Hao}
-\IEEEauthorblockA{Da Nang Architecture University, Da Nang, Vietnam\\
-Email: haodp@dau.edu.vn}%
-\thanks{Manuscript prepared August 2026. Code and data-preparation scripts are
-released to reproduce every reported number (Section~\ref{sec:repro}).}}
+\author{Do Phuc Hao%
+\thanks{D. P. Hao is with Da Nang Architecture University, Da Nang, Vietnam
+(email: haodp@dau.edu.vn).}%
+\thanks{Manuscript submitted to the IEEE Transactions on Cognitive Communications and
+Networking, August 2026. Code and data-preparation scripts that reproduce every reported
+number are released (Section~\ref{sec:repro}).}}
 
-\markboth{Preprint, August 2026}%
-{Do: When Does a Kolmogorov--Arnold Network Help in Wireless?}
+\markboth{IEEE Transactions on Cognitive Communications and Networking (Submitted, August 2026)}%
+{Do: When Do Kolmogorov--Arnold Networks Help in Wireless?}
 
 \maketitle
 
@@ -263,14 +264,31 @@ mem.\ poly.   & $x|x|^{k-1}$ basis, LS fit & memory, order \\
 \subsection{Task and data}
 Power-amplifier (PA) behavioral modeling is a smooth, low-dimensional nonlinear regression
 and is the regime KANs are \emph{claimed} to handle best, since each edge can in principle
-capture a one-dimensional AM/AM-like curve. We drive a Wiener--Hammerstein PA, an input
-FIR filter followed by a static Saleh AM/AM and AM/PM nonlinearity~\cite{saleh1981} and an
-output FIR filter, with a pulse-shaped 16-QAM baseband signal at $6$~dB input backoff.
-Because the ground-truth PA is \emph{not} a memory polynomial, the classical
+capture a one-dimensional AM/AM-like curve. We drive a Wiener--Hammerstein PA with a
+pulse-shaped 16-QAM baseband signal at $6$~dB input backoff. With input FIR $h_1$, output FIR
+$h_2$, and $u[n]=(h_1{*}x)[n]$, the static Saleh nonlinearity~\cite{saleh1981} applies
+amplitude and phase distortion
+\begin{equation}
+A(r)=\frac{\alpha_a r}{1+\beta_a r^2},\qquad
+\Phi(r)=\frac{\alpha_p r^2}{1+\beta_p r^2},
+\label{eq:saleh}
+\end{equation}
+so that the PA output is
+\begin{equation}
+y[n]=\Big(h_2*v\Big)[n],\quad
+v[n]=A(|u[n]|)\,e^{\,j\big(\angle u[n]+\Phi(|u[n]|)\big)} .
+\label{eq:wh}
+\end{equation}
+Because \eqref{eq:saleh}--\eqref{eq:wh} is not a memory polynomial, the classical
 memory-polynomial baseline gets no unfair ``true model class'' advantage; all learners
-approximate. The task is to predict the complex PA output from a length-$5$ memory window
-of the complex input; the metric is normalized mean-squared error (NMSE) in dB. Models are
-trained over $5$ seeds. We evaluate \emph{behavioral modeling}, the forward-model accuracy
+approximate. The task is to predict the complex PA output $y[n]$ from a length-$M{=}5$ memory
+window of the complex input, and the metric throughout the paper is the normalized
+mean-squared error
+\begin{equation}
+\mathrm{NMSE}=10\log_{10}\frac{\sum_n \lVert \hat{y}[n]-y[n]\rVert^2}{\sum_n \lVert y[n]\rVert^2}\ \text{[dB]} .
+\label{eq:nmse}
+\end{equation}
+Models are trained over $5$ seeds. We evaluate \emph{behavioral modeling}, the forward-model accuracy
 that a predistorter is built on, rather than a full indirect-learning DPD loop; we therefore
 report NMSE and not ACPR or EVM, and read the results as a statement about learning a smooth
 PA nonlinearity, not about end-to-end linearization. Because the ground-truth PA is a Saleh
@@ -286,10 +304,15 @@ $\input{claims/dpd_mlp_nmse}$~dB, beating the Fourier-KAN
 $+\input{claims/dpd_kanfourier_minus_mlp}$~dB (Fourier-KAN worse than MLP) and
 $+\input{claims/dpd_kanspline_minus_mlp}$~dB (spline-KAN worse than MLP); both confidence
 intervals exclude zero, so the MLP advantage is significant. Crucially, the classical baseline
-is not a strawman: a properly built generalized memory polynomial (GMP), with the
-lagging/leading cross-envelope terms of the standard model~\cite{morgan2006gmp}, reaches
-$\input{claims/dpd_mempoly_nmse}$~dB, statistically tied with the best neural model and better
-than both KANs. So at the \emph{default} matched configuration, even on the regime most
+is not a strawman: a properly built generalized memory polynomial (GMP)~\cite{morgan2006gmp},
+\begin{equation}
+\hat{y}[n]=\!\!\sum_{\substack{k\ \mathrm{odd}}}\ \sum_{m}\ \sum_{|m'-m|\le 2}\!\!
+c_{k,m,m'}\;x[n{-}m]\,\bigl|x[n{-}m']\bigr|^{k-1},
+\label{eq:gmp}
+\end{equation}
+with the lagging/leading cross-envelope terms $m'\neq m$ that a diagonal memory polynomial
+omits, reaches $\input{claims/dpd_mempoly_nmse}$~dB, statistically tied with the best neural
+model and better than both KANs. So at the \emph{default} matched configuration, even on the regime most
 favorable to KANs, the KANs beat neither a same-budget MLP nor the right classical method,
 and the widely used spline-KAN is the worst option of all. This ranking is not the whole
 story, however: Section~\ref{sec:abl} shows that a Fourier-KAN with a richer basis overtakes
@@ -414,8 +437,15 @@ observe the channel frequency response at $\input{claims/chest_pilots}$ subcarri
 at $\input{claims/chest_snr_db}$~dB SNR, and the task is to estimate the channel at all
 subcarriers. The metric is channel NMSE in dB, over $5$ seeds. The decisive point is the
 baseline: linear minimum mean-square error (LMMSE) estimation is the Wiener estimator, optimal
-in the linear-Gaussian setting, and is the genuine classical workhorse here; we also include
-simple linear interpolation as a weak reference.
+in the linear-Gaussian setting, and is the genuine classical workhorse here. From the noisy
+pilot observations $\mathbf{y}_p=\mathbf{H}_p+\mathbf{n}$ it forms
+\begin{equation}
+\hat{\mathbf{H}}=\mathbf{R}_{H H_p}\bigl(\mathbf{R}_{H_p H_p}+\sigma^2\mathbf{I}\bigr)^{-1}\mathbf{y}_p,
+\label{eq:lmmse}
+\end{equation}
+with $\mathbf{R}_{H H_p}$ and $\mathbf{R}_{H_p H_p}$ the channel cross- and pilot
+auto-covariances estimated from training; we also include simple linear interpolation as a weak
+reference.
 
 Table~\ref{tab:chest} and Fig.~\ref{fig:chest} report the result. The classical LMMSE is the
 best estimator at $\input{claims/chest_lmmse_nmse}$~dB, ahead of every neural model. Among the
@@ -618,12 +648,17 @@ band hides this crossover.}
 Matching parameter count, the axis on which KAN ``efficiency'' is usually claimed, hides the
 axis that matters for deployment: compute. A KAN edge evaluates a spline or a truncated
 Fourier series where an MLP edge evaluates a single multiply-add, so at equal parameters a KAN
-does substantially more work. An MLP layer costs $O(d_{\mathrm{in}}d_{\mathrm{out}})$
-multiply-adds, a Fourier-KAN layer costs $O(d_{\mathrm{in}}d_{\mathrm{out}}K)$ with an extra
-$2K$ transcendental evaluations per edge, and a spline-KAN layer costs
-$O(d_{\mathrm{in}}d_{\mathrm{out}}(G+k))$ with a B-spline recurrence per edge. The parameter
-count absorbs the $K$ or $G{+}k$ factor into the weight tensor, but the arithmetic does not
-disappear; it reappears as latency.
+does substantially more work. Counting multiply-adds per layer,
+\begin{align}
+C_{\mathrm{MLP}} &= 2\,d_{\mathrm{in}}d_{\mathrm{out}}, \label{eq:cmlp}\\
+C_{\mathrm{KAN}}^{\mathrm{F}} &= 2K\,d_{\mathrm{in}}d_{\mathrm{out}} + \kappa\,(2K)\,d_{\mathrm{in}}, \label{eq:ckanf}\\
+C_{\mathrm{KAN}}^{\mathrm{S}} &= (G{+}k)\,d_{\mathrm{in}}d_{\mathrm{out}} + \rho\,d_{\mathrm{in}}, \label{eq:ckans}
+\end{align}
+where $\kappa$ is the cost of a $\cos/\sin$ pair and $\rho$ that of the B-spline recurrence.
+Two effects compound: the basis multiplies the connectivity term by $2K$ or $G{+}k$, and the
+transcendental or recurrence terms add fixed per-edge overhead that no parameter count reflects.
+The parameter budget absorbs the multiplicative factor by shrinking the hidden width, but the
+per-edge overhead does not shrink with it; it reappears as latency.
 
 Table~\ref{tab:compute} measures it. At the \emph{same} parameter budget, inference is
 $\input{claims/compute_dpd_fkan_slowdown}\times$ to $\input{claims/compute_dpd_skan_slowdown}\times$

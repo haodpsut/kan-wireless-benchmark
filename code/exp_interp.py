@@ -66,38 +66,45 @@ class SymbolicKAN(torch.nn.Module):
 
 if __name__ == "__main__":
     din, H, K = 2 * L, 24, 4
-    Xtr, Ytr = make_dataset(0); Xte, Yte = make_dataset(100)
-    kan = KANreg(din, H, 2, K)
-    nmse_full = train_reg(kan, Xtr, Ytr, Xte, Yte, 0)
+    Xte, Yte = make_dataset(100)
+    med_r2s, wmed_r2s, fracs, degs = [], [], [], []
+    last_R2 = None
+    for seed in range(5):                                  # multi-seed, like the rest of the paper
+        Xtr, Ytr = make_dataset(seed)
+        kan = KANreg(din, H, 2, K)
+        nmse_full = train_reg(kan, Xtr, Ytr, Xte, Yte, seed)
+        lo, hi = np.percentile(Xtr, 1), np.percentile(Xtr, 99)
+        grid = torch.linspace(float(lo), float(hi), 200)
+        F = edge_functions(kan, grid)
+        P, R2 = poly_fit_all(F, grid)
+        # variance-weighted R^2: weight each edge by its function variance (amplitude), so
+        # near-flat edges cannot inflate the simplicity score (addresses the R^2-blindness point)
+        wvar = F.var(axis=2)                               # [h,din]
+        wmed = float((R2 * wvar).sum() / (wvar.sum() + 1e-12))
+        sym = SymbolicKAN(kan, P)
+        with torch.no_grad():
+            pred = sym(torch.tensor(Xte)).numpy()
+        nmse_sym = nmse_db(pred, Yte)
+        med_r2s.append(float(np.median(R2))); wmed_r2s.append(wmed)
+        fracs.append(float((R2 > 0.95).mean())); degs.append(nmse_sym - nmse_full)
+        last_R2 = R2
+        print(f"  seed{seed}: medR2={np.median(R2):.3f} wR2={wmed:.3f} "
+              f"frac>0.95={100*(R2>0.95).mean():.1f}% degr={nmse_sym-nmse_full:+.2f}dB")
 
-    # grid over the actual per-feature input range (honest support, not an arbitrary window)
-    lo, hi = np.percentile(Xtr, 1), np.percentile(Xtr, 99)
-    grid = torch.linspace(float(lo), float(hi), 200)
-    F = edge_functions(kan, grid)
-    P, R2 = poly_fit_all(F, grid)
-
-    # Q2: symbolic surrogate NMSE
-    sym = SymbolicKAN(kan, P)
-    with torch.no_grad():
-        pred = sym(torch.tensor(Xte)).numpy()
-    nmse_sym = nmse_db(pred, Yte)
-
-    med_r2 = float(np.median(R2)); frac_simple = float((R2 > 0.95).mean())
-    print(f"[Q1 simplicity]  median edge R^2(deg<=3) = {med_r2:.3f} | "
-          f"fraction edges R^2>0.95 = {100*frac_simple:.1f}%")
-    print(f"[Q2 fidelity]    NMSE full KAN = {nmse_full:.2f} dB | "
-          f"symbolic surrogate = {nmse_sym:.2f} dB | degradation = {nmse_sym-nmse_full:+.2f} dB")
+    med_r2 = float(np.mean(med_r2s)); wmed_r2 = float(np.mean(wmed_r2s))
+    frac_simple = float(np.mean(fracs)); deg = float(np.mean(degs)); deg_std = float(np.std(degs))
+    print(f"[Q1] median edge R^2={med_r2:.3f} | variance-weighted R^2={wmed_r2:.3f} | "
+          f"frac>0.95={100*frac_simple:.1f}% (5 seeds)")
+    print(f"[Q2] symbolic degradation = {deg:.2f} +- {deg_std:.2f} dB (5 seeds)")
 
     os.makedirs("results", exist_ok=True)
     with open("results/exp_interp.csv", "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["metric", "value"])
+        w = csv.writer(f); w.writerow(["metric", "value"])
         w.writerow(["median_edge_R2_deg3", round(med_r2, 4)])
+        w.writerow(["variance_weighted_R2", round(wmed_r2, 4)])
         w.writerow(["frac_edges_R2_gt_0.95", round(frac_simple, 4)])
-        w.writerow(["nmse_full_db", round(nmse_full, 3)])
-        w.writerow(["nmse_symbolic_db", round(nmse_sym, 3)])
-        w.writerow(["symbolic_degradation_db", round(nmse_sym - nmse_full, 3)])
-    # save the edge R^2 histogram data for a house-style figure later
+        w.writerow(["symbolic_degradation_db", round(deg, 3)])
+        w.writerow(["symbolic_degradation_std", round(deg_std, 3)])
     with open("results/edge_r2.csv", "w", newline="") as f:
-        w = csv.writer(f); w.writerow(["r2"]); [w.writerow([round(float(v), 4)]) for v in R2.ravel()]
+        w = csv.writer(f); w.writerow(["r2"]); [w.writerow([round(float(v), 4)]) for v in last_R2.ravel()]
     print("wrote results/exp_interp.csv, results/edge_r2.csv")

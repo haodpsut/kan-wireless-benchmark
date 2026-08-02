@@ -1,0 +1,7 @@
+config,h,params,nmse_mean,nmse_std
+depth1-relu,179,2329,-15.215,0.136
+depth2-relu,42,2354,-16.252,0.082
+depth3-relu,31,2389,-16.718,0.169
+depth2-gelu,42,2354,-14.484,0.219
+depth2-tanh,42,2354,-15.778,0.133
+depth4-relu,25,2277,-16.601,0.1

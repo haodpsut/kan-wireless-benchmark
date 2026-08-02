@@ -191,7 +191,30 @@ def fig_edges():
     fig.tight_layout(); ap.save(fig, out("fig_edges"))
 
 
+def fig_chest():
+    """Channel-estimation regime: classical LMMSE is best; spline-KAN ties the matched MLP."""
+    rows = {r["model"]: r for r in load_csv("exp_chest.csv")}
+    order = ["LMMSE", "MLP", "KANspline", "KANfourier", "LinInterp"]
+    lab = {"LMMSE": "LMMSE", "MLP": "MLP", "KANspline": "KAN (spline)",
+           "KANfourier": "KAN (Fourier)", "LinInterp": "lin. interp."}
+    sty = {"LMMSE": (ap.INK, "xxx"), "MLP": (ap.AGREEN, "///"),
+           "KANspline": (ap.WARM, "\\\\\\"), "KANfourier": (ap.GRAY, "..."),
+           "LinInterp": (ap.LIME, "++")}
+    fig, ax = plt.subplots(figsize=(3.5, 2.5))
+    for i, m in enumerate(order):
+        v = float(rows[m]["nmse_mean"]); lo = float(rows[m]["ci_lo"]); hi = float(rows[m]["ci_hi"])
+        c, hh = sty[m]
+        ax.bar(i, v, width=0.68, facecolor="white", edgecolor=c, linewidth=1.0, hatch=hh)
+        ax.errorbar(i, v, yerr=[[abs(v - lo)], [abs(hi - v)]], fmt="none", ecolor=c,
+                    elinewidth=1.0, capsize=2.5)
+    ax.set_xticks(range(len(order))); ax.set_xticklabels([lab[m] for m in order], rotation=20, ha="right")
+    ax.set_ylabel("channel NMSE [dB]"); ax.invert_yaxis()
+    ap.headline(ax, "LMMSE best; spline-KAN\nties matched MLP", loc="lower right")
+    fig.tight_layout(); ap.save(fig, out("fig_chest"))
+
+
 if __name__ == "__main__":
+    fig_chest(); print("fig_chest ok")
     fig_edges(); print("fig_edges ok")
     fig_permod(); print("fig_permod ok")
     fig_dpd(); print("fig_dpd ok")

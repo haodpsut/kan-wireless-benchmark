@@ -31,9 +31,8 @@ Kolmogorov--Arnold networks (KANs) are increasingly proposed for wireless tasks 
 claims: they match or beat multilayer perceptrons (MLPs) at fewer parameters, and their
 learned univariate edge functions make them interpretable. Rather than accept or dismiss
 these claims, we map \emph{when} they hold, using a parameter-matched, multi-seed protocol
-on two non-saturated wireless regimes: power-amplifier behavioral modeling (a smooth
-low-dimensional regression) and automatic modulation classification on the real RML2016.10a
-dataset. The honest picture is regime-dependent. KANs are genuinely competitive and
+on three non-saturated wireless regimes: power-amplifier behavioral modeling, OFDM channel
+estimation, and automatic modulation classification on the real RML2016.10a dataset. The honest picture is regime-dependent. KANs are genuinely competitive and
 sometimes better: a spline-KAN beats a matched MLP on modulation classification above about
 $2$~dB SNR and across the full SNR range, a Fourier-KAN with a richer basis beats the MLP on
 the regression task at matched capacity, and KANs win in the low-data regime. But the two most
@@ -91,19 +90,22 @@ way it falls. Concretely:
 budget, trained identically, and compared with bootstrap confidence intervals and paired
 differences. Baselines are chosen to be \emph{strong and task-appropriate}, not
 strawmen.
-\item We evaluate two wireless regimes chosen to be \textbf{non-saturated}, so
+\item We evaluate three wireless regimes chosen to be \textbf{non-saturated}, so
 differences are resolvable: (i) power-amplifier behavioral modeling / DPD, a smooth
-low-dimensional regression that is the regime most favorable to KANs
-(Section~\ref{sec:dpd}); and (ii) automatic modulation classification (AMC) on the real
-RML2016.10a dataset restricted to the low-SNR band (Section~\ref{sec:amc}).
+low-dimensional regression that is the regime most favorable to KANs (Section~\ref{sec:dpd});
+(ii) automatic modulation classification (AMC) on the real RML2016.10a dataset
+(Section~\ref{sec:amc}); and (iii) OFDM channel estimation, an estimation task with a
+strong LMMSE baseline (Section~\ref{sec:chest}).
 \item We conduct an \textbf{interpretability audit} (Section~\ref{sec:interp}) that
 separates two things a claim of interpretability must satisfy: are the learned edges
 simple, and is the simple form free? We find the edges are simple but the symbolic
 distillation that realizes the interpretability claim degrades accuracy.
-\item We run \textbf{four ablations} (Section~\ref{sec:abl}) that stress-test the comparison
-in KAN's favor: a parameter-budget sweep, a KAN hyperparameter sweep, a training-set-size
-sweep, and an SNR sweep. These reveal honest crossovers, KANs win in some regimes, and pin
-down where.
+\item We run \textbf{ablations} (Section~\ref{sec:abl}) that stress-test the comparison in
+KAN's favor: parameter-budget, \emph{symmetric} KAN-and-MLP hyperparameter, training-set-size,
+and SNR sweeps. These reveal honest crossovers, KANs win in some regimes, and pin down where.
+\item We audit \textbf{computational cost} (Section~\ref{sec:compute}): at matched parameters,
+KANs are $4$ to $30\times$ slower per inference than the MLP, so the ``efficiency'' that
+motivates them is largely illusory once compute, not just parameter count, is measured.
 \item We synthesize a \textbf{regime map} and practical guidance
 (Section~\ref{sec:discuss}): KANs are competitive and win in specific regimes
 (high-SNR classification, low data, richer bases) but never dominate, are beaten by the
@@ -197,10 +199,20 @@ on a non-saturated regime. Baselines are strong and task-appropriate.}
 \end{figure}
 
 \emph{(1) Matched capacity.} For each task we fix a target parameter budget $P$ and size
-every model to it. The Fourier-KAN sets $P$; the spline-KAN hidden width, the MLP hidden
-width, and (where used) are then chosen to land within a few percent of $P$. This makes
-``KAN uses fewer parameters'' testable rather than assumed. For DPD all learned models
-sit at $P\approx\input{claims/dpd_params}$ parameters.
+every model to it. For a two-layer network with input width $d$, hidden width $h$, and output
+width $c$, the parameter counts are
+\begin{align}
+P_{\mathrm{MLP}} &= dh + h^2 + hc + (2h+c), \label{eq:pmlp}\\
+P_{\mathrm{KAN}}^{\mathrm{F}} &= 2K\,(dh + hc) + (h+c), \label{eq:pkanf}\\
+P_{\mathrm{KAN}}^{\mathrm{S}} &= (1{+}G{+}k)\,(dh + hc), \label{eq:pkans}
+\end{align}
+where $K$ is the Fourier order and $(G,k)$ the spline grid and degree. The trendy factor
+$2K$ or $(1{+}G{+}k)$ multiplies the same $dh{+}hc$ connectivity, so a KAN and an MLP reach the
+same $P$ only at different hidden widths. We fix the Fourier-KAN, compute its $P$ from
+\eqref{eq:pkanf}, and solve \eqref{eq:pmlp} and \eqref{eq:pkans} for the MLP and spline-KAN
+widths that land within a few percent of it. This makes ``KAN uses fewer parameters'' testable
+rather than assumed. For DPD all learned models sit at $P\approx\input{claims/dpd_params}$
+parameters; the residual mismatch is under $3\%$.
 
 \emph{(2) Strong, task-appropriate baselines.} A KAN must be compared against the
 baseline a practitioner would actually use. For the smooth regression regime that is a
@@ -210,9 +222,11 @@ classification regime it is a small convolutional network that exploits the I/Q 
 structure. The matched MLP is the fairness control common to both.
 
 \emph{(3) Multiple seeds and interval estimates.} Each configuration is trained over
-several seeds; we report the mean with a bootstrap $95\%$ confidence interval, and for the
-head-to-head question we report the \emph{paired} KAN-minus-baseline difference with its
-own interval. No result rests on a single seed.
+several seeds (five for the regression regime, ten for classification); throughout, $\pm$
+denotes one standard deviation across seeds, and bracketed intervals are bootstrap $95\%$
+confidence intervals of the mean. For the head-to-head question we report the \emph{paired}
+KAN-minus-baseline difference with its own bootstrap interval, and call a difference
+significant only when that interval excludes zero. No result rests on a single seed.
 
 \emph{(4) Non-saturated regimes.} We deliberately choose operating points where no model
 is near the ceiling, so a real difference can appear. This is the opposite of the common
@@ -256,7 +270,12 @@ Because the ground-truth PA is \emph{not} a memory polynomial, the classical
 memory-polynomial baseline gets no unfair ``true model class'' advantage; all learners
 approximate. The task is to predict the complex PA output from a length-$5$ memory window
 of the complex input; the metric is normalized mean-squared error (NMSE) in dB. Models are
-trained over $5$ seeds.
+trained over $5$ seeds. We evaluate \emph{behavioral modeling}, the forward-model accuracy
+that a predistorter is built on, rather than a full indirect-learning DPD loop; we therefore
+report NMSE and not ACPR or EVM, and read the results as a statement about learning a smooth
+PA nonlinearity, not about end-to-end linearization. Because the ground-truth PA is a Saleh
+model, its AM/AM curve is smooth by construction; a measured PA with strong memory or
+hysteresis could shift the boundaries, as we note in Section~\ref{sec:discuss}.
 
 \subsection{Results}
 Table~\ref{tab:dpd} and Fig.~\ref{fig:dpd} report the outcome. At a matched budget of
@@ -336,16 +355,16 @@ rather than report a single aggregate.
 \begin{table}[t]
 \centering
 \caption{AMC on RML2016.10a, low-SNR band $[-6,6]$~dB, matched flat-model capacity,
-3 seeds. Accuracy (higher is better).}
+10 seeds. Accuracy (higher is better).}
 \label{tab:amc}
 \begin{tabular}{lrr}
 \toprule
 Model & Params & Accuracy $\uparrow$ \\
 \midrule
-CNN (task-appropriate) & $5291$  & $\mathbf{0.660\pm0.004}$ \\
-MLP (matched)          & $68651$ & $0.495\pm0.002$ \\
-KAN, spline (canon.)   & $69420$ & $0.466\pm0.002$ \\
-KAN, Fourier           & $68395$ & $0.354\pm0.007$ \\
+CNN (task-appropriate) & $5291$  & $\mathbf{0.658\pm0.005}$ \\
+MLP (matched)          & $68651$ & $0.495\pm0.003$ \\
+KAN, spline (canon.)   & $69420$ & $0.468\pm0.006$ \\
+KAN, Fourier           & $68395$ & $0.349\pm0.007$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -360,26 +379,80 @@ decides the task.}
 \end{figure}
 
 \subsection{Where the KAN advantage lives}
-Resolving accuracy by modulation (Fig.~\ref{fig:permod}) sharpens the picture and connects it
-to signal structure. The spline-KAN's advantage over the matched MLP is not spread evenly: it
-concentrates on the phase- and amplitude-shift modulations whose decision regions are
-constellation geometry, gaining $+\input{claims/permod_kan_bpsk_gain}$ on BPSK,
-$+\input{claims/permod_kan_pam4_gain}$ on PAM4, and $+\input{claims/permod_kan_8psk_gain}$ on
-8PSK, while it slightly trails the MLP on the analog and frequency-modulated classes (for
-example $\input{claims/permod_kan_gfsk_loss}$ on GFSK). This is exactly the pattern the
-per-edge mechanism predicts: a learnable univariate function per input can carve the smooth
-amplitude/phase boundaries of a constellation, but offers little for signals whose class is
-carried by frequency dynamics that a flat model reads only weakly in any case. The KAN is
-therefore not a generically better classifier; it is a better fit to a specific, identifiable
-structure.
+To locate the KAN advantage we resolve accuracy by modulation on the mid-band ($0$ to
+$12$~dB), the regime where the SNR sweep places the spline-KAN ahead of the MLP; this
+decomposes the high-SNR crossover, not the low-SNR headline of Table~\ref{tab:amc}, and we
+report it as such. In this regime (Fig.~\ref{fig:permod}) the spline-KAN's advantage over the
+matched MLP is not spread evenly: it concentrates on the phase- and amplitude-shift
+modulations whose decision regions are constellation geometry, gaining
+$+\input{claims/permod_kan_bpsk_gain}$ on BPSK, $+\input{claims/permod_kan_pam4_gain}$ on PAM4,
+and $+\input{claims/permod_kan_8psk_gain}$ on 8PSK, while it slightly trails the MLP on the
+analog and frequency-modulated classes (for example $\input{claims/permod_kan_gfsk_loss}$ on
+GFSK). This pattern is consistent with, though it does not prove, a per-edge mechanism: a
+learnable univariate function per input can carve the smooth amplitude/phase boundaries of a
+constellation, but offers little for signals whose class is carried by frequency dynamics that
+a flat model reads only weakly in any case. The KAN is thus not a generically better
+classifier; where it helps, it is a better fit to a specific, identifiable structure.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_permod.pdf}
-\caption{Per-modulation accuracy difference, spline-KAN minus matched MLP. The KAN advantage
-concentrates on constellation-geometry modulations (BPSK, PAM4, 8PSK, QPSK) and reverses on
-frequency/analog modulations, consistent with a per-edge decision-boundary mechanism.}
+\caption{Per-modulation accuracy difference, spline-KAN minus matched MLP, on the mid-band
+($0$ to $12$~dB) where the KAN leads overall. The KAN advantage concentrates on
+constellation-geometry modulations (BPSK, PAM4, 8PSK, QPSK) and reverses on frequency/analog
+modulations, consistent with a per-edge decision-boundary mechanism.}
 \label{fig:permod}
+\end{figure}
+
+% ============================================================================
+\section{Regime 3: OFDM Channel Estimation}\label{sec:chest}
+% ============================================================================
+To test a third, structurally different task, we add OFDM channel estimation: an
+\emph{estimation} problem rather than PA modeling or classification. On an $N{=}\input{claims/chest_subcarriers}$
+subcarrier grid with $L{=}8$ multipath taps (exponential power-delay profile), comb pilots
+observe the channel frequency response at $\input{claims/chest_pilots}$ subcarriers under noise
+at $\input{claims/chest_snr_db}$~dB SNR, and the task is to estimate the channel at all
+subcarriers. The metric is channel NMSE in dB, over $5$ seeds. The decisive point is the
+baseline: linear minimum mean-square error (LMMSE) estimation is the Wiener estimator, optimal
+in the linear-Gaussian setting, and is the genuine classical workhorse here; we also include
+simple linear interpolation as a weak reference.
+
+Table~\ref{tab:chest} and Fig.~\ref{fig:chest} report the result. The classical LMMSE is the
+best estimator at $\input{claims/chest_lmmse_nmse}$~dB, ahead of every neural model. Among the
+neural models the spline-KAN ($\input{claims/chest_kanspline_nmse}$~dB) exactly ties the matched
+MLP ($\input{claims/chest_mlp_nmse}$~dB), the Fourier-KAN
+($\input{claims/chest_kanfourier_nmse}$~dB) is marginally behind, and all three clear the
+linear-interpolation reference ($\input{claims/chest_lininterp_nmse}$~dB) by a wide margin. As
+in the PA-modeling regime, the KAN buys nothing over a same-size MLP, and the right classical
+method is not beaten by either. Three regimes, three task types, and the same conclusion at the
+default configuration: KANs are competitive but not superior, and never beat the appropriate
+classical or structural baseline.
+
+\begin{table}[t]
+\centering
+\caption{OFDM channel estimation at $10$~dB SNR, matched capacity, 5 seeds. NMSE in dB
+(lower is better).}
+\label{tab:chest}
+\begin{tabular}{lr}
+\toprule
+Model & NMSE [dB] $\downarrow$ \\
+\midrule
+LMMSE (classical)    & $\mathbf{-13.37\pm0.01}$ \\
+MLP (matched)        & $-13.28\pm0.01$ \\
+KAN, spline (canon.) & $-13.28\pm0.01$ \\
+KAN, Fourier         & $-13.12\pm0.01$ \\
+linear interpolation & $-9.48\pm0.01$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_chest.pdf}
+\caption{Channel estimation, matched capacity. Classical LMMSE is the best estimator; the
+spline-KAN exactly ties the matched MLP and neither beats LMMSE, mirroring the PA-modeling
+regime on a different task type.}
+\label{fig:chest}
 \end{figure}
 
 % ============================================================================
@@ -392,9 +465,12 @@ the DPD KAN, where the task is smooth and thus most favorable to the claim.
 
 \emph{(Q1) Simplicity.} Are the learned first-layer edge functions well approximated by a
 human-readable low-order polynomial? We sample each edge on its input support and fit a
-cubic. The fits are excellent: the median per-edge $R^2$ is
+cubic (over $5$ seeds). The fits are excellent: the median per-edge $R^2$ is
 $\input{claims/interp_median_r2}$ and $\input{claims/interp_frac_simple_pct}\%$ of edges
-exceed $R^2=0.95$ (Fig.~\ref{fig:interp}). Fig.~\ref{fig:edges} makes this concrete by
+exceed $R^2=0.95$ (Fig.~\ref{fig:interp}). To guard against near-flat edges inflating this,
+we also weight each edge's $R^2$ by its function variance; the variance-weighted mean is
+$\input{claims/interp_vw_r2}$, so the high-amplitude edges that actually carry the model are
+simple too, not just the negligible ones. Fig.~\ref{fig:edges} makes this concrete by
 overlaying three representative learned edges, spanning the best, median, and worst fits, on
 their cubics: the dashed fits sit essentially on top of the solid curves, and the
 highest-magnitude edge is a simple monotonic S-shape reminiscent of an AM/AM characteristic.
@@ -409,13 +485,14 @@ confirming the edges are simple, readable curves.}
 \label{fig:edges}
 \end{figure}
 
-\emph{(Q2) Fidelity: is it free?} We then \emph{distill} layer one into those cubics (a
-symbolic surrogate), keep the rest of the network exact, and re-measure NMSE. The full KAN
-scores $\input{claims/interp_nmse_full}$~dB; the symbolic surrogate scores
-$\input{claims/interp_nmse_symbolic}$~dB, a degradation of
-$\input{claims/interp_degradation_db}$~dB. In other words, the readable form is not the
-performant form: extracting the interpretable symbols discards more than a decibel of
-modeling accuracy. Interpretability here is real but not free, which is precisely the
+\emph{(Q2) Fidelity: is it free?} We then \emph{distill} the first layer into those cubics (a
+symbolic surrogate), keep the rest of the network exact, and re-measure NMSE over the same
+$5$ seeds. The surrogate degrades NMSE by $\input{claims/interp_degradation_db}\pm\input{claims/interp_degradation_std}$~dB.
+In other words, the readable form is not the performant form: extracting the interpretable
+symbols discards more than a decibel of modeling accuracy, consistently across seeds. Because
+we symbolize only the first layer, this is a \emph{lower bound} on the cost of a fully
+symbolic KAN, and a task-loss-refit surrogate might recover part of it; even so, the naive
+extraction that the interpretability claim relies on is not free. This is precisely the
 nuance that qualitative ``plot a few edges'' demonstrations omit.
 
 \begin{figure}[t]
@@ -441,14 +518,38 @@ close: the Fourier-KAN improves with budget but tracks below the MLP, and the sp
 plateaus near $-14$~dB and stops improving. Giving the KAN more parameters of the same kind
 does not rescue it here.
 
-\emph{KAN hyperparameters (Table~\ref{tab:kanhp}).} We then tune the KAN itself. Increasing
-the Fourier basis order to $K=8$ raises the Fourier-KAN to
-$\input{claims/dpd_fkan_k8_nmse}$~dB at $\input{claims/dpd_fkan_k8_params}$ parameters,
-which \emph{beats} a same-budget MLP ($\input{claims/dpd_mlp_h48_nmse}$~dB at $4658$).
-Spectral richness, not width, is the lever, and with it the Fourier-KAN wins the regression
-task at matched capacity. This is the flip side of the capacity-confound argument: just as an
-unmatched KAN can win for the wrong reason, a well-chosen KAN can win for the right one, and
-only a matched comparison tells them apart.
+\emph{KAN and MLP hyperparameters (Tables~\ref{tab:kanhp} and~\ref{tab:mlphp}).} Fairness
+demands that if we tune the KAN, we tune the MLP too. We do both. Increasing the Fourier basis
+order to $K=8$ raises the Fourier-KAN to $\input{claims/dpd_fkan_k8_nmse}$~dB at
+$\input{claims/dpd_fkan_k8_params}$ parameters, and spectral richness, not width, is the lever.
+But the MLP is not fixed either: sweeping its depth and activation
+(Table~\ref{tab:mlphp}), a three-layer MLP reaches $\input{claims/mlp_best_2330_nmse}$~dB at
+the default budget, beating every matched-budget KAN there, and $\input{claims/mlp_tuned_k8budget_nmse}$~dB
+at the larger $K=8$ budget. So the Fourier-KAN's regression win survives a \emph{symmetrically}
+tuned MLP, but only by $\input{claims/k8_vs_tuned_mlp_margin}$~dB, down from $0.6$~dB against
+the untuned MLP: a real but thin advantage, and only at the larger budget. This is the flip
+side of the capacity-confound argument: just as an unmatched KAN can win for the wrong reason,
+a well-chosen KAN can win for the right one, and only a matched, symmetrically tuned comparison
+tells them apart.
+
+\begin{table}[t]
+\centering
+\caption{Symmetric MLP sweep on DPD at the default budget ($5$ seeds). A tuned three-layer MLP
+is the strongest matched-budget model, so the KAN is not beaten by an untuned baseline.}
+\label{tab:mlphp}
+\begin{tabular}{lrr}
+\toprule
+MLP configuration & Params & NMSE [dB] $\downarrow$ \\
+\midrule
+$1$ layer, ReLU  & $2329$ & $-15.22\pm0.14$ \\
+$2$ layer, ReLU (default) & $2354$ & $-16.25\pm0.08$ \\
+$2$ layer, GELU  & $2354$ & $-14.48\pm0.22$ \\
+$2$ layer, tanh  & $2354$ & $-15.78\pm0.13$ \\
+$3$ layer, ReLU  & $2389$ & $\mathbf{-16.72\pm0.17}$ \\
+$4$ layer, ReLU  & $2277$ & $-16.60\pm0.10$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \emph{Sample efficiency (Fig.~\ref{fig:samples}).} A distinct claimed KAN strength is
 data efficiency. It holds here: with $1$k and $4$k training examples the Fourier-KAN beats
@@ -512,6 +613,50 @@ band hides this crossover.}
 \end{figure}
 
 % ============================================================================
+\section{Computational Cost: The Efficiency Illusion}\label{sec:compute}
+% ============================================================================
+Matching parameter count, the axis on which KAN ``efficiency'' is usually claimed, hides the
+axis that matters for deployment: compute. A KAN edge evaluates a spline or a truncated
+Fourier series where an MLP edge evaluates a single multiply-add, so at equal parameters a KAN
+does substantially more work. An MLP layer costs $O(d_{\mathrm{in}}d_{\mathrm{out}})$
+multiply-adds, a Fourier-KAN layer costs $O(d_{\mathrm{in}}d_{\mathrm{out}}K)$ with an extra
+$2K$ transcendental evaluations per edge, and a spline-KAN layer costs
+$O(d_{\mathrm{in}}d_{\mathrm{out}}(G+k))$ with a B-spline recurrence per edge. The parameter
+count absorbs the $K$ or $G{+}k$ factor into the weight tensor, but the arithmetic does not
+disappear; it reappears as latency.
+
+Table~\ref{tab:compute} measures it. At the \emph{same} parameter budget, inference is
+$\input{claims/compute_dpd_fkan_slowdown}\times$ to $\input{claims/compute_dpd_skan_slowdown}\times$
+slower for the KANs than for the matched MLP on the regression models, and
+$\input{claims/compute_amc_fkan_slowdown}\times$ to $\input{claims/compute_amc_skan_slowdown}\times$
+slower on the classification models, with the canonical spline-KAN the most expensive by far.
+So even in the regimes where a KAN edges out the MLP on accuracy, it pays with an order of
+magnitude more compute per inference, and a practitioner optimizing performance per FLOP or per
+millisecond, the realistic constraint at a base station or on an edge device, would not choose
+it. ``Fewer parameters'' is the wrong metric; matched-parameter is already generous to the KAN.
+
+\begin{table}[t]
+\centering
+\caption{Compute at matched parameters. Inference time per batch (256) and slowdown versus the
+matched MLP. KANs cost far more compute for the same parameter count.}
+\label{tab:compute}
+\begin{tabular}{llrr}
+\toprule
+Task & Model & Params & Infer.\ [ms] $\downarrow$ \\
+\midrule
+DPD & MLP           & $2354$  & $0.04$ \\
+DPD & KAN, Fourier  & $2330$  & $0.27$ \\
+DPD & KAN, spline   & $2280$  & $1.14$ \\
+\midrule
+AMC & CNN           & $5291$  & $25.2$ \\
+AMC & MLP           & $68651$ & $0.16$ \\
+AMC & KAN, Fourier  & $68395$ & $0.74$ \\
+AMC & KAN, spline   & $69420$ & $3.47$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================================
 \section{Discussion}\label{sec:discuss}
 % ============================================================================
 \subsection{A regime map}
@@ -563,6 +708,20 @@ for tractability. Because our conclusions are two-sided, the main risk is misloc
 boundary rather than a hidden global winner: every reported crossover has intervals that
 exclude zero, and the interpretability cost was measured directly rather than inferred.
 
+\subsection{Future work}
+Three extensions would sharpen the map. First, a \emph{systematic audit} of the recent
+KAN-in-wireless literature against the six-point checklist of Section~\ref{sec:discuss}: our
+results predict that the reported efficiency wins will correlate with unmatched capacity,
+saturated benchmarks, or unreported seeds, and a structured survey scoring each paper on the
+six criteria would test that prediction directly and quantify how widespread the confounds
+are. Second, a full DPD linearization loop with ACPR and EVM on a \emph{measured} power
+amplifier, replacing our forward Saleh model, would confirm whether the thin regression
+crossover survives real memory and hysteresis effects. Third, extending the model set to
+wavelet and Chebyshev KANs~\cite{wavkan,chebykan} and adding a real multimodal benchmark such
+as DeepSense~6G~\cite{deepsense6g} would probe whether any KAN variant reverses the ordering on
+a task with genuinely exploitable structure. The released harness is designed to make each of
+these a small addition rather than a reimplementation.
+
 \subsection{Practical guidance}
 For a wireless practitioner: if the task has exploitable structure, spend the model budget on
 the right inductive bias (a convolution, an unrolled algorithm) rather than on the edge
@@ -606,7 +765,9 @@ produce the ablations (Table~\ref{tab:kanhp}, Figs.~\ref{fig:budget}--\ref{fig:s
 from its own result CSV. The RML2016.10a dataset is public~\cite{oshea2016gnuradio}. We list,
 for each table and figure, the exact script and CSV that generate it, and we fix all random
 seeds. The code and a \texttt{claims.json} single-source-of-truth are released so that a
-reader can regenerate the results and verify the paper's numbers against the CSVs.
+reader can regenerate the results and verify the paper's numbers against the CSVs. The full
+code, result CSVs, and the claims file are available at
+\url{https://github.com/haodpsut/kan-wireless-benchmark}.
 
 % ============================================================================
 \section{Conclusion}\label{sec:concl}

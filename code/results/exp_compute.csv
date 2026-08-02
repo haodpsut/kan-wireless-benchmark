@@ -1,0 +1,8 @@
+task,model,params,infer_ms_per_batch,train_ms_per_step
+DPD,MLP,2354,0.038,0.216
+DPD,KANfourier,2330,0.272,0.567
+DPD,KANspline,2280,1.143,2.74
+AMC,CNN,5291,25.157,44.489
+AMC,MLP,68651,0.164,0.764
+AMC,KANfourier,68395,0.743,1.686
+AMC,KANspline,69420,3.468,5.822

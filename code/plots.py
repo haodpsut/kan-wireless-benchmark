@@ -93,9 +93,10 @@ def fig_interp():
     deg = float(meta["symbolic_degradation_db"])
     med = float(meta["median_edge_R2_deg3"])
     fig, ax = plt.subplots(figsize=(3.5, 2.5))
-    ax.hist(r2, bins=20, range=(0.8, 1.0), color="white", edgecolor=ap.INK,
+    ax.hist(r2, bins=24, range=(0.9, 1.001), color="white", edgecolor=ap.INK,
             linewidth=1.0, hatch="///")
     ax.axvline(med, color=ap.WARM, ls="--", lw=1.2)
+    ax.set_xlim(0.9, 1.002)
     ax.set_xlabel("per-edge $R^2$ of cubic fit")
     ax.set_ylabel("edge count")
     ap.headline(ax, f"edges simple (median $R^2$={med:.3f})\n"

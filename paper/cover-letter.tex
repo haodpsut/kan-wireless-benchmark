@@ -1,0 +1,50 @@
+\documentclass[11pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{times}
+\usepackage[hidelinks]{hyperref}
+\signature{Phuc Hao Do\\Da Nang Architecture University}
+\address{Phuc Hao Do\\Da Nang Architecture University\\Da Nang, Vietnam\\haodp@dau.edu.vn}
+\begin{document}
+\begin{letter}{Editor-in-Chief\\IEEE Transactions on Cognitive Communications and Networking}
+\opening{Dear Editor,}
+
+I am pleased to submit the manuscript ``When Do Kolmogorov--Arnold Networks Help in Wireless?
+A Matched-Capacity, Non-Saturated Benchmark'' for consideration as a research paper in the IEEE
+Transactions on Cognitive Communications and Networking.
+
+Kolmogorov--Arnold networks (KANs) are being adopted rapidly across the wireless physical layer,
+usually with two claims: that they match or beat multilayer perceptrons at fewer parameters, and
+that their learned edge functions make them interpretable. These claims are typically demonstrated
+in a showcase style, against an unmatched baseline and on a possibly saturated benchmark. Our paper
+asks, and answers by measurement, a more useful question: when does a KAN actually help in wireless?
+
+The contribution is a controlled, reproducible benchmark rather than a new architecture. We
+introduce a parameter-matched, multi-seed protocol and apply it across three non-saturated regimes,
+power-amplifier behavioral modeling, OFDM channel estimation, and modulation classification on the
+real RML2016.10a dataset, each with a strong classical or structural baseline (generalized memory
+polynomial, LMMSE, and a convolutional network). The result is deliberately two-sided and honest:
+KANs are competitive and win in specific regimes (high-SNR classification, low-data, richer bases),
+but they never dominate, are beaten by the right classical or structural method, carry an
+interpretability cost of more than a decibel that we measure directly, and run four to thirty times
+slower than a matched MLP. We distill the findings into a regime map and a six-point reporting
+checklist for the community, and we release all code, data-preparation scripts, and a
+single-source-of-truth claims file at \url{https://github.com/haodpsut/kan-wireless-benchmark}, so
+that every number in the paper can be regenerated and verified.
+
+We believe the work fits the scope of the Transactions squarely: it concerns machine learning for
+cognitive and adaptive wireless systems, and it provides a methodology that helps the community
+evaluate such models honestly. To our knowledge the wireless-specific question has not been studied
+under matched capacity before; the closest prior work is a general-machine-learning fairness study,
+which we cite and extend to the wireless setting.
+
+We confirm that this manuscript is original, has not been published elsewhere, and is not under
+review at any other venue. A separate paper of ours applies KANs to a different problem (adaptive
+control in satellite quantum key distribution) and is under review elsewhere; it shares no results,
+datasets, or claims with this benchmark, which is an independent methodological contribution. The
+author has no conflicts of interest to declare.
+
+Thank you for your consideration.
+
+\closing{Sincerely,}
+\end{letter}
+\end{document}

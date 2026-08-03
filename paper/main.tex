@@ -673,6 +673,12 @@ So even in the regimes where a KAN edges out the MLP on accuracy, it pays with a
 magnitude more compute per inference, and a practitioner optimizing performance per FLOP or per
 millisecond, the realistic constraint at a base station or on an edge device, would not choose
 it. ``Fewer parameters'' is the wrong metric; matched-parameter is already generous to the KAN.
+These timings are single-thread CPU measurements; on a massively parallel accelerator the
+wall-clock gap would narrow, since the extra per-edge operations parallelize. The
+\emph{arithmetic}, however, does not: the multiply-add and transcendental counts
+\eqref{eq:cmlp}--\eqref{eq:ckans} are device-independent, so the energy and throughput penalty
+remains even where latency is hidden. We report CPU latency as the transparent proxy and the
+FLOP counts as the device-independent statement.
 
 \begin{table}[t]
 \centering

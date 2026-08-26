@@ -1,0 +1,167 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-06-18>
+(/Users/agentra/texlive/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+(/Users/agentra/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+-- This is a 10 point document.
+) (/Users/agentra/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/Users/agentra/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/Users/agentra/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/Users/agentra/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/Users/agentra/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/Users/agentra/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/Users/agentra/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/Users/agentra/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/Users/agentra/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
+(/Users/agentra/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/Users/agentra/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/Users/agentra/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/Users/agentra/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/Users/agentra/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/Users/agentra/texlive/texmf-dist/tex/latex/url/url.sty)
+(/Users/agentra/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/Users/agentra/texlive/texmf-dist/tex/generic/iftex/iftex.sty)
+(/Users/agentra/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(/Users/agentra/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/Users/agentra/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(/Users/agentra/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/Users/agentra/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/Users/agentra/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty)))
+(/Users/agentra/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/Users/agentra/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/Users/agentra/texlive/texmf-dist/tex/latex/refcount/refcount.sty)
+(/Users/agentra/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.st
+y (/Users/agentra/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+(/Users/agentra/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/Users/agentra/texlive/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(/Users/agentra/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/Users/agentra/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/Users/agentra/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/Users/agentra/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+(/Users/agentra/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)))
+(/Users/agentra/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/Users/agentra/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/Users/agentra/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)
+)) (/Users/agentra/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
+ (./main.aux)
+-- Lines per column: 58 (exact).
+(/Users/agentra/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/Users/agentra/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/Users/agentra/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(./main.out) (./main.out)
+(/Users/agentra/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/Users/agentra/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+
+LaTeX Warning: Citation `efficientkan' on page 1 undefined on input line 62.
+
+
+LaTeX Warning: Citation `kandpd2026' on page 1 undefined on input line 67.
+
+
+LaTeX Warning: Citation `kanrff2025' on page 1 undefined on input line 67.
+
+
+LaTeX Warning: Citation `wsr6g2025' on page 1 undefined on input line 68.
+
+
+LaTeX Warning: Citation `kansurvey2024' on page 1 undefined on input line 78.
+
+
+Underfull \hbox (badness 1389) in paragraph at lines 94--99
+\OT1/ptm/b/n/10 saturated\OT1/ptm/m/n/10 , so dif-fer-ences are re-solv-able: (
+i) power-
+[1{/Users/agentra/texlive/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/Users/
+agentra/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}]
+
+LaTeX Warning: Citation `efficientkan' on page 2 undefined on input line 124.
+
+
+LaTeX Warning: Citation `efficientkan' on page 2 undefined on input line 125.
+
+
+LaTeX Warning: Citation `kansurvey2024' on page 2 undefined on input line 131.
+
+
+LaTeX Warning: Citation `kansurvey2024' on page 2 undefined on input line 137.
+
+
+Underfull \hbox (badness 7064) in paragraph at lines 134--141
+[]\OT1/ptm/m/n/10 The orig-i-nal pro-posal [[]] em-pha-sizes accuracy-per-
+
+LaTeX Warning: Citation `kandpd2026' on page 2 undefined on input line 144.
+
+
+LaTeX Warning: Citation `kanrff2025' on page 2 undefined on input line 146.
+
+
+LaTeX Warning: Citation `wsr6g2025' on page 2 undefined on input line 147.
+
+
+LaTeX Warning: Citation `rml22' on page 2 undefined on input line 151.
+
+
+LaTeX Warning: Citation `fsosamc2024' on page 2 undefined on input line 151.
+
+
+LaTeX Warning: Citation `xaichannel2023' on page 2 undefined on input line 153.
+
+
+(./claims/dpd_params.tex) (./claims/dpd_params.tex) (./claims/dpd_mlp_nmse.tex)
+(./claims/dpd_kanfourier_nmse.tex) (./claims/dpd_kanspline_nmse.tex)
+(./claims/dpd_kanfourier_minus_mlp.tex) (./claims/dpd_kanspline_minus_mlp.tex)
+(./claims/dpd_mempoly_nmse.tex) (./claims/amc_snr_lo.tex)
+(./claims/amc_snr_hi.tex) (./claims/amc_n.tex) (./claims/n_seeds_amc.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 247--255
+\OT1/ptm/m/n/10 structured-input clas-si-fi-ca-tion task. We use the real
+
+Underfull \hbox (badness 6094) in paragraph at lines 247--255
+\OT1/ptm/m/n/10 RML2016.10a dataset [[]], which con-tains $\OT1/cmr/m/n/10 128$
+\OT1/ptm/m/n/10 -sample
+[2] (./claims/amc_cnn_acc.tex) (./claims/amc_mlp_acc.tex)
+(./claims/amc_kanspline_acc.tex) (./claims/amc_kanfourier_acc.tex)
+(./claims/amc_kanfourier_minus_mlp.tex) (./claims/amc_cnn_minus_kanfourier.tex)
+(./claims/interp_median_r2.tex) (./claims/interp_frac_simple_pct.tex)
+(./claims/interp_nmse_full.tex) (./claims/interp_nmse_symbolic.tex)
+(./claims/interp_degradation_db.tex)
+Underfull \vbox (badness 1389) has occurred while \output is active [3 <./figs/
+fig_dpd.pdf> <./figs/fig_amc.pdf>]
+(/Users/agentra/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd) (./main.bbl)
+[4 <./figs/fig_interp.pdf>] (./main.aux)
+
+LaTeX Warning: There were undefined references.
+
+ )
+(see the transcript file for additional information)</Users/agentra/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/agentra/texlive/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></Users/agentra/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmex10.pfb></Users/agentra/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/agentra/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmmi7.pfb></Users/agentra/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmmi8.pfb></Users/agentra/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmmi9.pfb></Users/agentra/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmr10.pfb></Users/agentra/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr5.pfb></Users/agentra/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr6.pfb></Users/agentra/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr7.pfb></Users/agentra/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr8.pfb></Users/agentra/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr9.pfb></Users/agentra/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy10.pfb></Users/agentra/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+7.pfb></Users/agentra/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.p
+fb></Users/agentra/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
+0.pfb></Users/agentra/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></U
+sers/agentra/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></Users/agentr
+a/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></Users/agentra/texlive/
+texmf-dist/fonts/type1/urw/times/utmr8a.pfb></Users/agentra/texlive/texmf-dist/
+fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (4 pages, 385713 bytes).
+Transcript written on main.log.

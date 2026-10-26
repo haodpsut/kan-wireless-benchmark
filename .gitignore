@@ -26,3 +26,6 @@ NOP-*/
 paper/*.fls
 paper/*.fdb_latexmk
 paper/*.synctex*
+
+# ho so nop va doc ngoai: ghi chu noi bo, KHONG len kho cong khai
+submit-NEUCOM/

@@ -1,0 +1,11 @@
+ngan sach: Fourier-KAN K=8 = 4634 | MLP depth3-relu h=45 = 4727
+
+Fourier-KAN K=8 : -17.060 +- 0.116 dB   CI[-17.109,-17.010]   (ban cu bao -17,142)
+MLP depth3-relu : -16.904 +- 0.157 dB   CI[-16.971,-16.833]   (ban cu bao -16,95)
+
+hieu GHEP CAP (KAN - MLP) = -0.156 dB  CI95[-0.246,-0.066]
+Wilcoxon sign-rank chinh xac: W=35.0  p=0.0073  (n=20 hat giong)
+=> KET LUAN: KAN tot hon
+=> do lon tuyen bo cu: 0,19 dB. Do duoc o day: 0.156 dB, sd theo hat giong 0.207 dB
+
+ghi: /home/daipv/thi-nghiem/kan-wireless/kan-wireless-benchmark/code/results/exp_bigbudget_paired.csv

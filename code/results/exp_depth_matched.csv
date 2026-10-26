@@ -1,0 +1,37 @@
+do_sau,n,lam,model,nmse_db,sd,ci_lo,ci_hi,ket_luan
+1 lop an,256,0.0,MLP,-1.6838,0.2807,,,
+1 lop an,256,0.0,KAN-spline,-4.5421,0.9568,,,
+1 lop an,256,0.0,PAIRED KAN - MLP,-2.8583,,-3.478,-2.2059,KAN
+1 lop an,256,0.5,MLP,-3.113,0.3509,,,
+1 lop an,256,0.5,KAN-spline,-2.0082,0.3352,,,
+1 lop an,256,0.5,PAIRED KAN - MLP,1.1049,,0.7952,1.4338,MLP
+1 lop an,256,1.0,MLP,-4.9456,0.6393,,,
+1 lop an,256,1.0,KAN-spline,-0.5573,0.2672,,,
+1 lop an,256,1.0,PAIRED KAN - MLP,4.3883,,3.9073,4.8311,MLP
+1 lop an,4096,0.0,MLP,-16.6659,0.1559,,,
+1 lop an,4096,0.0,KAN-spline,-25.1847,0.1864,,,
+1 lop an,4096,0.0,PAIRED KAN - MLP,-8.5189,,-8.6544,-8.387,KAN
+1 lop an,4096,0.5,MLP,-16.846,0.1205,,,
+1 lop an,4096,0.5,KAN-spline,-21.6217,0.1921,,,
+1 lop an,4096,0.5,PAIRED KAN - MLP,-4.7757,,-4.9257,-4.639,KAN
+1 lop an,4096,1.0,MLP,-17.1403,0.1543,,,
+1 lop an,4096,1.0,KAN-spline,-21.5701,0.2821,,,
+1 lop an,4096,1.0,PAIRED KAN - MLP,-4.4298,,-4.6601,-4.2032,KAN
+2 lop an,256,0.0,MLP,-0.9899,0.2105,,,
+2 lop an,256,0.0,KAN-spline,-2.8532,1.076,,,
+2 lop an,256,0.0,PAIRED KAN - MLP,-1.8633,,-2.5154,-1.2296,KAN
+2 lop an,256,0.5,MLP,-1.6745,0.3563,,,
+2 lop an,256,0.5,KAN-spline,-1.2811,0.4941,,,
+2 lop an,256,0.5,PAIRED KAN - MLP,0.3934,,0.1105,0.6417,MLP
+2 lop an,256,1.0,MLP,-2.5318,0.4362,,,
+2 lop an,256,1.0,KAN-spline,-0.3575,0.2384,,,
+2 lop an,256,1.0,PAIRED KAN - MLP,2.1743,,1.9129,2.4252,MLP
+2 lop an,4096,0.0,MLP,-15.0055,0.3384,,,
+2 lop an,4096,0.0,KAN-spline,-25.7216,0.1674,,,
+2 lop an,4096,0.0,PAIRED KAN - MLP,-10.7161,,-10.9928,-10.446,KAN
+2 lop an,4096,0.5,MLP,-16.3201,0.2306,,,
+2 lop an,4096,0.5,KAN-spline,-22.3003,1.0377,,,
+2 lop an,4096,0.5,PAIRED KAN - MLP,-5.9802,,-6.6639,-5.3313,KAN
+2 lop an,4096,1.0,MLP,-16.8179,0.6711,,,
+2 lop an,4096,1.0,KAN-spline,-22.9518,0.8677,,,
+2 lop an,4096,1.0,PAIRED KAN - MLP,-6.1339,,-6.6693,-5.5762,KAN

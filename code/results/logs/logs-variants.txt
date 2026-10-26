@@ -1,0 +1,27 @@
+[kiem] ngan sach tham so khop: {'KAN-fast': 2297, 'KAN-cheby': 2305, 'MLP': 2323} | muc tieu 2300
+n=  256 lam=0.00 KAN-fast   - MLP = -10.422 dB [-10.930,-9.899] -> KAN
+n=  256 lam=0.00 KAN-cheby  - MLP = -11.810 dB [-12.361,-11.228] -> KAN
+n=  256 lam=0.10 KAN-fast   - MLP =  -6.290 dB [-6.466,-6.120] -> KAN
+n=  256 lam=0.10 KAN-cheby  - MLP =  -6.438 dB [-6.590,-6.288] -> KAN
+n=  256 lam=0.25 KAN-fast   - MLP =  -3.272 dB [-3.440,-3.119] -> KAN
+n=  256 lam=0.25 KAN-cheby  - MLP =  -3.151 dB [-3.290,-3.013] -> KAN
+n=  256 lam=0.50 KAN-fast   - MLP =  -0.381 dB [-0.612,-0.142] -> KAN
+n=  256 lam=0.50 KAN-cheby  - MLP =  -0.271 dB [-0.531,-0.001] -> KAN
+n=  256 lam=0.75 KAN-fast   - MLP =  +1.523 dB [+1.225,+1.874] -> MLP
+n=  256 lam=0.75 KAN-cheby  - MLP =  +1.625 dB [+1.296,+1.988] -> MLP
+n=  256 lam=1.00 KAN-fast   - MLP =  +2.623 dB [+2.331,+2.918] -> MLP
+n=  256 lam=1.00 KAN-cheby  - MLP =  +3.113 dB [+2.788,+3.387] -> MLP
+n= 4096 lam=0.00 KAN-fast   - MLP = -16.202 dB [-16.721,-15.491] -> KAN
+n= 4096 lam=0.00 KAN-cheby  - MLP = -13.499 dB [-13.986,-12.833] -> KAN
+n= 4096 lam=0.10 KAN-fast   - MLP = -14.411 dB [-15.186,-13.542] -> KAN
+n= 4096 lam=0.10 KAN-cheby  - MLP = -11.346 dB [-12.040,-10.617] -> KAN
+n= 4096 lam=0.25 KAN-fast   - MLP = -13.809 dB [-14.393,-13.196] -> KAN
+n= 4096 lam=0.25 KAN-cheby  - MLP = -10.236 dB [-10.774,-9.622] -> KAN
+n= 4096 lam=0.50 KAN-fast   - MLP = -12.257 dB [-12.795,-11.730] -> KAN
+n= 4096 lam=0.50 KAN-cheby  - MLP =  -8.673 dB [-9.087,-8.280] -> KAN
+n= 4096 lam=0.75 KAN-fast   - MLP = -11.155 dB [-11.453,-10.845] -> KAN
+n= 4096 lam=0.75 KAN-cheby  - MLP =  -7.647 dB [-7.972,-7.313] -> KAN
+n= 4096 lam=1.00 KAN-fast   - MLP =  -6.442 dB [-6.747,-6.122] -> KAN
+n= 4096 lam=1.00 KAN-cheby  - MLP =  -2.931 dB [-3.261,-2.636] -> KAN
+
+ghi: /home/daipv/thi-nghiem/kan-wireless/kan-wireless-benchmark/code/results/exp_mechanism_variants.csv

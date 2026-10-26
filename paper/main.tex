@@ -1,62 +1,86 @@
-\documentclass[journal]{IEEEtran}
+\documentclass[final,5p,times]{elsarticle}
+%% 5p = HAI COT, dung bo cuc cua bai da xuat ban (bai mau 1-s2.0-S0925231226027177).
+%% ⛔ Tuy chon 'review' bi BO: chinh no day moi float xuong CUOI bai.
 % ============================================================================
-% When Does a Kolmogorov-Arnold Network Help in Wireless?
-% A parameter-matched, non-saturated benchmark. Honest-measurement research paper.
-% All numbers are traced to ../code results via claims.json (verify_numbers.py).
+% When Do Kolmogorov-Arnold Networks Help in Wireless?
+% Khuon Elsevier cho Neurocomputing. Dang NOP: mot cot, gian dong doi, co so dong.
+% Moi so trong bai den tu claims/, kiem bang code/verify_numbers.py.
 % ============================================================================
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
+\usepackage{catchfile}
+\usepackage{microtype}   %% giam tran dong o cot hep bang gian chu va nho chu ra le
+\emergencystretch=1em    %% cho TeX gian thua mot chut thay vi de chu tran ra ngoai
 \graphicspath{{figs/}}
 
+%% Dia chi kho co MOT cho o: claims/repo_url.tex. \url co doi so kieu verbatim nen
+%% \input KHONG no trong do (da tra gia mot lan), vi vay nap vao macro roi dung \href.
+\CatchFileDef{\repourl}{claims/repo_url.tex}{\endlinechar=-1}
+%% \texttt KHONG ngat dong duoc, nen dia chi tran ra ngoai kho chu va BAN IN bi
+%% CAT MAT duoi: "https://github.com/haodpsut/k" roi het. Da do duoc tren ban in.
+%% \url ngat duoc o dau gach cheo, nhung doi so cua no la verbatim nen phai no macro TRUOC.
+\newcommand{\repolink}{\expandafter\url\expandafter{\repourl}}
+
+\journal{Neurocomputing}
+
 \begin{document}
+
+\begin{frontmatter}
+
 \title{When Do Kolmogorov--Arnold Networks Help in Wireless?\\
 A Matched-Capacity, Non-Saturated Benchmark}
 
-\author{Phuc Hao Do%
-\thanks{P. H. Do is with Da Nang Architecture University, Da Nang, Vietnam
-(email: haodp@dau.edu.vn).}%
-\thanks{Manuscript submitted to the IEEE Transactions on Cognitive Communications and
-Networking, August 2026. Code and data-preparation scripts that reproduce every reported
-number are released (Section~\ref{sec:repro}).}}
-
-\markboth{IEEE Transactions on Cognitive Communications and Networking (Submitted, August 2026)}%
-{Do: When Do Kolmogorov--Arnold Networks Help in Wireless?}
-
-\maketitle
+\author[dau]{Phuc Hao Do}
+\ead{haodp@dau.edu.vn}
+\affiliation[dau]{organization={Danang Architecture University},
+                  addressline={566 Nui Thanh},
+                  city={Da Nang},
+                  country={Vietnam}}
 
 \begin{abstract}
-Kolmogorov--Arnold networks (KANs) are increasingly proposed for wireless tasks with two
-claims: they match or beat multilayer perceptrons (MLPs) at fewer parameters, and their
-learned univariate edge functions make them interpretable. Rather than accept or dismiss
-these claims, we map \emph{when} they hold, using a parameter-matched, multi-seed protocol
-on three non-saturated wireless regimes: power-amplifier behavioral modeling, OFDM channel
-estimation, and automatic modulation classification on the real RML2016.10a dataset. The honest picture is regime-dependent. KANs are genuinely competitive and
-sometimes better: a spline-KAN beats a matched MLP on modulation classification above about
-$2$~dB SNR and across the full SNR range, a Fourier-KAN with a richer basis beats the MLP on
-the regression task at matched capacity, and KANs win in the low-data regime. But the two most
-common KAN variants never dominate: a small, task-appropriate convolutional network beats every
-flat model on classification by a wide margin at a fraction of the parameters, at the default
-budget a plain MLP is the stronger flat model at low SNR, and a properly built classical model
-ties or beats the KANs on regression. An interpretability audit shows the KAN's edges are
-simple (a cubic fits them with median $R^2=0.998$), yet the symbolic extraction that would make
-them interpretable costs over a decibel, so the readable model is not the performant one. We
-conclude that the sweeping KAN ``efficiency wins'' reported for wireless track unmatched
-capacity and favorable benchmarks, give a regime map of where KANs actually help, and release a
-reusable protocol and harness.
+Kolmogorov--Arnold networks (KANs) move the nonlinearity of a multilayer perceptron
+(MLP) from nodes onto learnable univariate edge functions, and are widely reported to
+match or beat MLPs at fewer parameters while staying interpretable.
+We ask \emph{when} an edge-wise basis helps, and \emph{why}. Using a
+parameter-matched, multi-seed protocol with paired confidence intervals, we evaluate
+\input{claims/mech_so_bien_the} KAN instantiations against MLP, convolutional and
+classical baselines on three non-saturated signal-processing regimes:
+power-amplifier modeling, OFDM channel estimation, and modulation classification on
+RML2016.10a. We then isolate the governing variable. On a synthetic family whose
+difficulty a neutral control holds fixed to within
+$\input{claims/mech_dokho_bien_do_n256}$~dB while cross-coordinate interaction
+varies, the KAN advantage decays monotonically with interaction: at $\input{claims/mech_n_it}$ training samples it reverses sign,
+MLPs winning by $\input{claims/mech_mlp_thang_min}$ to
+$\input{claims/mech_mlp_thang_max}$~dB on purely interacting targets, whereas at
+$\input{claims/mech_n_nhieu}$ samples it erodes from
+$\input{claims/mech_spline_n4096_lam0}$ to
+$\input{claims/mech_spline_n4096_lam1}$~dB without reversing. All instantiations order the same
+way; the reversal survives matching network depth on both sides, and at the reversal point
+sweeping $\input{claims/kantune_so_cau_hinh}$ KAN configurations still leaves the matched MLP
+ahead by $\input{claims/kantune_n256_lam10_hieu}$~dB. Given a shared convolutional backbone, an MLP head
+reaches $\input{claims/bb_mlp_acc}$ against $\input{claims/bb_kanspline_acc}$ for the
+best KAN head, so the classification gap is not an inductive-bias artifact, and the
+usual convolutional baseline is itself under-tuned by
+$\input{claims/bb_mlp_tru_linear}$. Symbolic extraction, the step that would make a
+KAN readable, costs over a decibel. We map two axes of where edge-wise bases help, and
+release the protocol and harness. Code and data:
+\repolink.
 \end{abstract}
 
-\begin{IEEEkeywords}
-Kolmogorov--Arnold networks, wireless machine learning, modulation classification,
-digital predistortion, model interpretability, benchmarking.
-\end{IEEEkeywords}
+\begin{keyword}
+Kolmogorov--Arnold networks \sep learning systems \sep benchmarking \sep
+parameter-matched comparison \sep interpretability \sep signal processing
+\end{keyword}
+
+\end{frontmatter}
 
 % ============================================================================
 \section{Introduction}\label{sec:intro}
 % ============================================================================
-\IEEEPARstart{K}{olmogorov}--Arnold networks (KANs)~\cite{liu2024kan} replace the fixed
+Kolmogorov--Arnold networks (KANs)~\cite{liu2024kan} replace the fixed
 node nonlinearities of a multilayer perceptron (MLP) with \emph{learnable} univariate
 functions on the edges, parameterized by splines~\cite{liu2024kan} or truncated Fourier
 series~\cite{efficientkan}. Two properties are repeatedly advertised: a favorable
@@ -145,7 +169,10 @@ speak of a matched budget. A rapidly growing family of variants swaps the edge b
 (wavelets in Wav-KAN~\cite{wavkan}, Gaussian radial bases in FastKAN~\cite{fastkan},
 Chebyshev polynomials in Cheby-KAN~\cite{chebykan}), and recent work also examines the
 hardware inference cost of these choices~\cite{hwkan2026}; none changes the parameter
-accounting above, so our matched-budget comparison of the two most common instantiations,
+accounting above. Our matched-budget comparison therefore covers the two most common
+instantiations on the three wireless regimes, and extends to
+$\input{claims/mech_so_bien_the}$ instantiations, adding FastKAN~\cite{fastkan} and
+Cheby-KAN~\cite{chebykan}, in the controlled experiment of Section~\ref{sec:coche},
 spline and Fourier, is representative. We use PyTorch implementations~\cite{paszke2019pytorch}
 following the efficient spline formulation~\cite{efficientkan}.
 
@@ -200,16 +227,25 @@ on a non-saturated regime. Baselines are strong and task-appropriate.}
 \end{figure}
 
 \emph{(1) Matched capacity.} For each task we fix a target parameter budget $P$ and size
-every model to it. For a two-layer network with input width $d$, hidden width $h$, and output
-width $c$, the parameter counts are
+every model to it. Write $d$ for the input width, $h$ for the hidden width and $c$ for the
+output width. The MLP of the main tables has \emph{two} hidden layers,
+$d\!\to\!h\!\to\!h\!\to\!c$ with ReLU at the nodes; each KAN has \emph{one} hidden layer,
+$d\!\to\!h\!\to\!c$, with the learned univariate function on every edge. Their parameter counts
+are
 \begin{align}
 P_{\mathrm{MLP}} &= dh + h^2 + hc + (2h+c), \label{eq:pmlp}\\
 P_{\mathrm{KAN}}^{\mathrm{F}} &= 2K\,(dh + hc) + (h+c), \label{eq:pkanf}\\
 P_{\mathrm{KAN}}^{\mathrm{S}} &= (1{+}G{+}k)\,(dh + hc), \label{eq:pkans}
 \end{align}
-where $K$ is the Fourier order and $(G,k)$ the spline grid and degree. The trendy factor
-$2K$ or $(1{+}G{+}k)$ multiplies the same $dh{+}hc$ connectivity, so a KAN and an MLP reach the
-same $P$ only at different hidden widths. We fix the Fourier-KAN, compute its $P$ from
+where $K$ is the Fourier order and $(G,k)$ the spline grid and degree; the $h^2$ term in
+\eqref{eq:pmlp} is the MLP's second hidden layer, and the spline layer of \eqref{eq:pkans}
+carries no separate bias because its base branch supplies one. The basis factor $2K$ or
+$(1{+}G{+}k)$ multiplies the KAN's own $dh{+}hc$ connectivity, so a KAN and an MLP reach the
+same $P$ only at different hidden widths.
+
+Matching $P$ at unmatched depth is a confound, and we treat it as one rather than leaving it
+implicit: Section~\ref{sec:depth} repeats the controlled experiment with depth matched on both
+sides and reports what changes and what does not. We fix the Fourier-KAN, compute its $P$ from
 \eqref{eq:pkanf}, and solve \eqref{eq:pmlp} and \eqref{eq:pkans} for the MLP and spline-KAN
 widths that land within a few percent of it. This makes ``KAN uses fewer parameters'' testable
 rather than assumed. For DPD all learned models sit at $P\approx\input{claims/dpd_params}$
@@ -245,6 +281,8 @@ summarizes the models and how each is sized to the shared budget.
 \caption{Models and matched-capacity sizing. Each learned model is sized to the shared
 per-task budget $P$; the CNN is included as the strong structural baseline for AMC.}
 \label{tab:arch}
+\small
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{lll}
 \toprule
 Model & Edge / layer function & Sized by \\
@@ -321,16 +359,16 @@ default result is only that KAN superiority is not automatic; it must be earned 
 
 \begin{table}[t]
 \centering
-\caption{DPD / PA modeling, matched capacity, 5 seeds. NMSE in dB (lower is better).}
+\caption{DPD / PA modeling, matched capacity, \protect\input{claims/n_seeds_dpd} seeds. NMSE in dB (lower is better).}
 \label{tab:dpd}
 \begin{tabular}{lrr}
 \toprule
 Model & Params & NMSE [dB] $\downarrow$ \\
 \midrule
-MLP (matched)        & $2354$ & $\mathbf{-16.27\pm0.12}$ \\
-GMP (classical)      & --     & $-16.20\pm0.05$ \\
-KAN, Fourier         & $2330$ & $-15.50\pm0.06$ \\
-KAN, spline (canon.) & $2280$ & $-14.09\pm0.08$ \\
+MLP (matched)          & $2354$    & $\mathbf{-16.32\pm0.10}$ \\
+GMP (classical)        & $-$       & $-16.20\pm0.05$ \\
+KAN, Fourier           & $2330$    & $-15.51\pm0.06$ \\
+KAN, spline (canon.)   & $2280$    & $-14.02\pm0.09$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -339,7 +377,7 @@ KAN, spline (canon.) & $2280$ & $-14.09\pm0.08$ \\
 \centering
 \includegraphics[width=\columnwidth]{fig_dpd.pdf}
 \caption{DPD regime, matched capacity. A same-budget MLP achieves the best modeling NMSE;
-both KAN variants are worse (paired differences $0.8$--$2.2$~dB, intervals exclude zero).}
+both KAN variants are worse (paired differences $\protect\input{claims/dpd_kanfourier_minus_mlp}$--$\protect\input{claims/dpd_kanspline_minus_mlp}$~dB, intervals exclude zero).}
 \label{fig:dpd}
 \end{figure}
 
@@ -365,7 +403,7 @@ models at a matched budget of about $68$k parameters, the MLP
 ($\input{claims/amc_kanspline_acc}$) is close but below, and the Fourier-KAN
 ($\input{claims/amc_kanfourier_acc}$) is markedly worse. The paired Fourier-KAN-minus-MLP
 difference is $\input{claims/amc_kanfourier_minus_mlp}$ (KAN worse), and the CNN leads the
-best KAN by $+\input{claims/amc_cnn_minus_kanfourier}$; both intervals exclude zero. One
+best KAN by $+\input{claims/amc_cnn_minus_bestkan}$; both intervals exclude zero. One
 lesson is unconditional and mirrors nothing in the regression regime: the right inductive
 bias, a convolution over the I/Q sequence, beats all flat models by a wide margin at a
 fraction of the parameters. The MLP-over-KAN ordering, however, is specific to this low-SNR
@@ -378,16 +416,16 @@ rather than report a single aggregate.
 \begin{table}[t]
 \centering
 \caption{AMC on RML2016.10a, low-SNR band $[-6,6]$~dB, matched flat-model capacity,
-10 seeds. Accuracy (higher is better).}
+\protect\input{claims/n_seeds_amc} seeds. Accuracy (higher is better).}
 \label{tab:amc}
 \begin{tabular}{lrr}
 \toprule
 Model & Params & Accuracy $\uparrow$ \\
 \midrule
-CNN (task-appropriate) & $5291$  & $\mathbf{0.658\pm0.005}$ \\
-MLP (matched)          & $68651$ & $0.495\pm0.003$ \\
-KAN, spline (canon.)   & $69420$ & $0.468\pm0.006$ \\
-KAN, Fourier           & $68395$ & $0.349\pm0.007$ \\
+CNN (task-appropriate)   & $5291$ & $\mathbf{0.658\pm0.005}$ \\
+MLP (matched)            & $68651$ & $0.495\pm0.003$ \\
+KAN, spline (canon.)     & $69420$ & $0.468\pm0.006$ \\
+KAN, Fourier             & $68395$ & $0.349\pm0.007$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -428,6 +466,32 @@ modulations, consistent with a per-edge decision-boundary mechanism.}
 \end{figure}
 
 % ============================================================================
+\subsection{Is the classification gap just the convolution?}\label{sec:backbone}
+A fair reading of Table~\ref{tab:amc} is that the CNN wins because it sees the I/Q time
+structure while every flat model sees a $256$-dimensional vector, so the comparison may measure
+the value of convolution rather than the value of edge-wise nonlinearity. The objection is
+sound, and it has a direct test: hold the feature extractor fixed and vary only the head.
+
+We take the convolutional stack of the same CNN, freeze the architecture, and attach four heads
+at matched head budgets: the original linear head, an MLP head, a Fourier-KAN head, and a
+spline-KAN head, each trained end to end over $\input{claims/mech_seeds}$ seeds. The linear head
+reproduces the CNN of Table~\ref{tab:amc} at $\input{claims/bb_linear_acc}$. The MLP head
+reaches $\input{claims/bb_mlp_acc}$ and the spline-KAN head
+$\input{claims/bb_kanspline_acc}$; the paired difference between them is
+$\input{claims/bb_kanspline_tru_mlp}$ in favour of the MLP head, with the interval excluding
+zero. The Fourier-KAN head does not train reliably in this setting at all, reaching
+$\input{claims/bb_kanfourier_acc}$ with a seed-to-seed standard deviation of the same order as
+its mean, and we report that instability rather than omitting the configuration.
+
+Two conclusions follow, and one of them is uncomfortable for us. First, the classification gap
+is not an artefact of convolutional inductive bias: given the same features, edge-wise
+nonlinearity does not beat node-wise nonlinearity here, so the objection is answered and the
+regime map stands. Second, our own ``task-appropriate'' baseline was under-tuned: simply
+replacing its linear head with an MLP head buys
+$\input{claims/bb_mlp_tru_linear}$ accuracy at the same backbone. A paper whose argument is
+that strong baselines are routinely under-tuned should say plainly when its own was, and the
+number above is the correction.
+
 \section{Regime 3: OFDM Channel Estimation}\label{sec:chest}
 % ============================================================================
 To test a third, structurally different task, we add OFDM channel estimation: an
@@ -460,17 +524,17 @@ classical or structural baseline.
 
 \begin{table}[t]
 \centering
-\caption{OFDM channel estimation at $10$~dB SNR, matched capacity, 5 seeds. NMSE in dB
+\caption{OFDM channel estimation at $10$~dB SNR, matched capacity, \protect\input{claims/n_seeds_dpd} seeds. NMSE in dB
 (lower is better).}
 \label{tab:chest}
 \begin{tabular}{lr}
 \toprule
 Model & NMSE [dB] $\downarrow$ \\
 \midrule
-LMMSE (classical)    & $\mathbf{-13.37\pm0.01}$ \\
-MLP (matched)        & $-13.28\pm0.01$ \\
-KAN, spline (canon.) & $-13.28\pm0.01$ \\
-KAN, Fourier         & $-13.12\pm0.01$ \\
+LMMSE (classical)    & $\mathbf{-13.36\pm0.01}$ \\
+MLP (matched)        & $-13.26\pm0.02$ \\
+KAN, spline (canon.) & $-13.27\pm0.01$ \\
+KAN, Fourier         & $-13.11\pm0.01$ \\
 linear interpolation & $-9.48\pm0.01$ \\
 \bottomrule
 \end{tabular}
@@ -497,7 +561,7 @@ the DPD KAN, where the task is smooth and thus most favorable to the claim.
 human-readable low-order polynomial? We sample each edge on its input support and fit a
 cubic (over $5$ seeds). The fits are excellent: the median per-edge $R^2$ is
 $\input{claims/interp_median_r2}$ and $\input{claims/interp_frac_simple_pct}\%$ of edges
-exceed $R^2=0.95$ (Fig.~\ref{fig:interp}). To guard against near-flat edges inflating this,
+exceed $R^2=\input{claims/interp_r2_nguong}$ (Fig.~\ref{fig:interp}). To guard against near-flat edges inflating this,
 we also weight each edge's $R^2$ by its function variance; the variance-weighted mean is
 $\input{claims/interp_vw_r2}$, so the high-amplitude edges that actually carry the model are
 simple too, not just the negligible ones. Fig.~\ref{fig:edges} makes this concrete by
@@ -530,7 +594,8 @@ nuance that qualitative ``plot a few edges'' demonstrations omit.
 \centering
 \includegraphics[width=\columnwidth]{fig_interp.pdf}
 \caption{Interpretability audit on the DPD KAN. The learned edges are simple (a cubic fits
-with median $R^2=0.998$), but distilling them into that symbolic form costs $1.17$~dB of
+with median $R^2=\protect\input{claims/interp_median_r2}$), but distilling them into that symbolic
+form costs $\protect\input{claims/interp_degradation_db}$~dB of
 NMSE: the interpretable model is not the performant one.}
 \label{fig:interp}
 \end{figure}
@@ -544,7 +609,7 @@ plentiful, or the operating point unrepresentative. We therefore run four ablati
 designed to give the KAN its best shot, and report the honest crossovers they reveal.
 
 \emph{Budget sweep (Fig.~\ref{fig:budget}).} We sweep the DPD parameter budget from about
-$0.8$k to $9$k. The MLP-over-KAN ordering persists at every budget, and the gap does not
+$\input{claims/abl_budget_min_k}$k to $\input{claims/abl_budget_max_k}$k. The MLP-over-KAN ordering persists at every budget, and the gap does not
 close: the Fourier-KAN improves with budget but tracks below the MLP, and the spline-KAN
 plateaus near $-14$~dB and stops improving. Giving the KAN more parameters of the same kind
 does not rescue it here.
@@ -557,18 +622,34 @@ But the MLP is not fixed either: sweeping its depth and activation
 (Table~\ref{tab:mlphp}), a three-layer MLP reaches $\input{claims/mlp_best_2330_nmse}$~dB at
 the default budget, beating every matched-budget KAN there, and $\input{claims/mlp_tuned_k8budget_nmse}$~dB
 at the larger $K=8$ budget. So the Fourier-KAN's regression win survives a \emph{symmetrically}
-tuned MLP, but only by $\input{claims/k8_vs_tuned_mlp_margin}$~dB, down from $0.6$~dB against
-the untuned MLP: a real but thin advantage, and only at the larger budget. This is the flip
-side of the capacity-confound argument: just as an unmatched KAN can win for the wrong reason,
-a well-chosen KAN can win for the right one, and only a matched, symmetrically tuned comparison
-tells them apart.
+tuned MLP, but thinly, and only at the larger budget.
+
+How thinly is a question the first version of this comparison could not answer, because it
+reported two independently averaged means and no interval. We therefore repeated exactly that
+comparison as a \emph{paired} test over $\input{claims/k8_n_seeds}$ seeds, training both models
+on identical data draws. The paired difference is
+$\input{claims/k8_paired_hieu}$~dB in favour of the Fourier-KAN, with a bootstrap
+$95\%$ interval of $[\input{claims/k8_paired_ci_lo}, \input{claims/k8_paired_ci_hi}]$~dB and an
+exact Wilcoxon signed-rank $p=\input{claims/k8_paired_p}$. The advantage is therefore real at
+this budget, and it is also smaller than the per-seed spread of either model taken alone: the
+standard deviation of the paired difference is larger than its mean, so the result is visible
+only because the comparison is paired. We state this explicitly because the unpaired version of
+the same numbers would not have supported a directional claim, and a reader who checks our
+earlier arithmetic rather than our protocol would have been right to object.
+
+This is the flip side of the capacity-confound argument: just as an unmatched KAN can win for
+the wrong reason, a well-chosen KAN can win for the right one, and only a matched,
+symmetrically tuned, \emph{paired} comparison tells them apart.
 
 \begin{table}[t]
 \centering
-\caption{Symmetric MLP sweep on DPD at the default budget ($5$ seeds). A tuned three-layer MLP
+\caption{Symmetric MLP sweep on DPD at the default budget
+($\protect\input{claims/n_seeds_mlpsweep}$ seeds; the main regression tables use
+$\protect\input{claims/n_seeds_dpd}$). A tuned three-layer MLP
 is the strongest matched-budget model, so the KAN is not beaten by an untuned baseline. The
-default 2-layer row ($-16.25$) is this sweep's own run; it matches Table~\ref{tab:dpd}'s
-$-16.27$ within seed noise.}
+default 2-layer row ($\protect\input{claims/mlp_sweep_depth2_nmse}$) is this sweep's own run;
+it matches Table~\ref{tab:dpd}'s
+$\protect\input{claims/dpd_mlp_nmse}$ within seed noise.}
 \label{tab:mlphp}
 \begin{tabular}{lrr}
 \toprule
@@ -611,9 +692,12 @@ tracks below it, and the spline-KAN plateaus. More same-kind parameters do not c
 
 \begin{table}[t]
 \centering
-\caption{DPD KAN hyperparameter sweep (5 seeds). A richer Fourier basis
-($K{=}8$, $-17.14$~dB at $4634$ params) beats even a symmetrically tuned MLP
-($-16.95$~dB at that budget), but by only $0.19$~dB (see Table~\ref{tab:mlphp}).}
+\caption{DPD KAN hyperparameter sweep ($\protect\input{claims/n_seeds_dpd}$ seeds). A richer Fourier basis
+($K{=}8$, $\protect\input{claims/dpd_fkan_k8_nmse}$~dB at
+$\protect\input{claims/dpd_fkan_k8_params}$ params) beats even a symmetrically tuned MLP
+($\protect\input{claims/mlp_tuned_k8budget_nmse}$~dB at that budget), but by only
+$\protect\input{claims/k8_paired_hieu}$~dB when the comparison is paired over
+$\protect\input{claims/k8_n_seeds}$ seeds (Section~\ref{sec:abl}).}
 \label{tab:kanhp}
 \begin{tabular}{llrr}
 \toprule
@@ -647,6 +731,22 @@ band hides this crossover.}
 \end{figure}
 
 % ============================================================================
+\subsection{The symmetric sweep, extended to all three regimes}\label{sec:sweep-all}
+The sweep above tunes the MLP only on the regression task, which leaves the obvious objection
+that the other two regimes compare a tuned KAN against a default MLP. We therefore ran the same
+sweep, six depth-and-activation configurations at the matched budget over
+$\input{claims/mech_seeds}$ seeds, on channel estimation and on modulation classification.
+
+The result does not rescue the KANs anywhere, and in both regimes it widens the gap. On channel
+estimation the reference Fourier-KAN reaches $\input{claims/sweep_chest_kan_ref}$~dB while the
+best swept MLP reaches $\input{claims/sweep_chest_mlp_tot_nhat}$~dB; every one of the six
+configurations beats the KAN, with paired intervals excluding zero. On modulation classification
+the reference Fourier-KAN reaches $\input{claims/sweep_amc_kan_ref}$ accuracy against
+$\input{claims/sweep_amc_mlp_tot_nhat}$ for the best swept MLP, again with all six
+configurations ahead. The asymmetry objection is thus answered in the direction that is
+inconvenient for the architecture under test, which is the only direction in which answering it
+is informative.
+
 \section{Computational Cost: The Efficiency Illusion}\label{sec:compute}
 % ============================================================================
 Matching parameter count, the axis on which KAN ``efficiency'' is usually claimed, hides the
@@ -682,7 +782,7 @@ FLOP counts as the device-independent statement.
 
 \begin{table}[t]
 \centering
-\caption{Compute at matched parameters. Inference time per batch (256) and slowdown versus the
+\caption{Compute at matched parameters. Inference time per batch ($\protect\input{claims/compute_batch}$) and slowdown versus the
 matched MLP. KANs cost far more compute for the same parameter count.}
 \label{tab:compute}
 \begin{tabular}{llrr}
@@ -702,6 +802,167 @@ AMC & KAN, spline   & $69420$ & $3.47$ \\
 \end{table}
 
 % ============================================================================
+\section{Why the Map Looks Like This: An Additivity Experiment}\label{sec:coche}
+
+Sections~\ref{sec:dpd}--\ref{sec:chest} say \emph{where} an edge-wise basis helps; they do
+not say \emph{why}, and a regime map without a mechanism is hard to transfer to a new task.
+This section supplies the missing variable and tests it directly.
+
+\subsection{Hypothesis}
+An MLP applies its nonlinearity at the \emph{nodes}: every hidden unit sees a linear mixture
+of all inputs, so a univariate dependence on one coordinate must be synthesised from mixtures.
+A KAN applies its nonlinearity at the \emph{edges}: each edge carries its own univariate
+function of a single coordinate. For $d$ inputs and a basis of size $G$ per edge, the first
+KAN layer therefore spends $O(dG)$ parameters on \emph{strictly univariate} degrees of freedom.
+The additive class
+\begin{equation}
+f(x)=\textstyle\sum_{i=1}^{d}\varphi_i(x_i)
+\label{eq:cong-tinh}
+\end{equation}
+sits inside the span of a single KAN layer, while an MLP must approximate it with mixtures.
+This predicts that the KAN advantage is controlled not by the task name but by \emph{how much
+of the target is additive}, and that it should fall away as cross-coordinate interaction grows.
+
+\subsection{Design, and the control that makes it a test}
+We build a target with a tunable interaction share $\lambda$,
+\begin{equation}
+y=\sqrt{1-\lambda}\,f_{\mathrm{add}}(x)+\sqrt{\lambda}\,f_{\mathrm{int}}(x)+\varepsilon,
+\qquad x\sim\mathcal{U}[-2,2]^{d},
+\label{eq:tron}
+\end{equation}
+with $d=\input{claims/mech_D}$, additive noise of standard deviation
+$\input{claims/mech_noise}$, and both components normalised to unit variance on a large
+reference sample before mixing, so $\lambda$ moves interaction power without moving signal
+power.
+
+Normalising variance is not sufficient on its own. If $f_{\mathrm{add}}$ and
+$f_{\mathrm{int}}$ were drawn from different smoothness classes, $\lambda$ would also move the
+intrinsic difficulty of the target, and any crossover could be read off the wrong axis. We
+therefore take both components from the \emph{same} class, degree-two polynomials:
+$f_{\mathrm{add}}=\sum_i a_i x_i^2$ is purely additive and
+$f_{\mathrm{int}}=\sum_{(j,k)} c_{jk} x_j x_k$ is purely cross-term, so the only structural
+difference between the two ends of the sweep is additivity itself. One consequence is worth
+stating because it is easy to mistake for evidence: the target lies in the span of the
+degree-two feature set $\{1,x_i,x_i^2,x_jx_k\}$ at \emph{every} $\lambda$, so an ordinary
+least-squares fit on that set is correctly specified throughout, its bias is zero, and its
+error varies only through estimation variance at fixed feature count. Measured, it is flat to
+$\input{claims/ctrl_ols_bien_do_n256}$~dB at $n=\input{claims/mech_n_it}$ and
+$\input{claims/ctrl_ols_bien_do_n4096}$~dB at $n=\input{claims/mech_n_nhieu}$, but that
+flatness is a property of the construction rather than a test of it: the same reference moves
+by $\input{claims/ctrl_ols_ngoai_span_bien_do}$~dB as soon as the target is given a component
+outside its span. A reference that cannot fail is not a control.
+
+We therefore use a control that can. We fit a structure-agnostic learner at the \emph{same}
+$\input{claims/mech_budget}$-parameter budget as the networks, namely ridge regression on
+$\input{claims/mech_budget}$ random Fourier features $\cos(w^\top x + b)$ with $w$ drawn from a
+fixed Gaussian: every feature mixes all coordinates, so nothing in it prefers additive targets,
+and its capacity is limited in the same way the networks' is. Across the whole sweep its NMSE
+moves by $\input{claims/ctrl_rf_bien_do_n256}$~dB at $n=\input{claims/mech_n_it}$ and
+$\input{claims/ctrl_rf_bien_do_n4096}$~dB at $n=\input{claims/mech_n_nhieu}$. So there is a
+residual difficulty gradient, and we report it rather than claim it away: it is
+$\input{claims/ctrl_rf_ty_le_n256}\%$ and $\input{claims/ctrl_rf_ty_le_n4096}\%$ of the
+architecture effect measured below at the two sample sizes. It also runs in the direction that
+works against the reading we draw: the interaction end is mildly \emph{easier} for a model that
+ignores structure, yet it is the end where the KAN loses.
+
+All models are sized to the same budget of $\input{claims/mech_budget}$ parameters, trained
+with the same schedule, and evaluated on $\input{claims/mech_ntest}$ held-out points over
+$\input{claims/mech_seeds}$ seeds; we report paired differences with bootstrap confidence
+intervals, so each cell compares models trained on identical data.
+
+\input{bang/co-che}
+
+\subsection{Result}
+Table~\ref{tab:coche} reports
+$\input{claims/mech_so_o_bang8}$ paired comparisons, so we state the multiplicity treatment
+before reading it: the intervals are per-cell and uncorrected, and we mark a cell only when its
+interval excludes zero. The cells the argument rests on, $\lambda\ge\input{claims/mech_lam_giao_tren}$ at
+$n=\input{claims/mech_n_it}$, have magnitudes of
+$\input{claims/mech_mlp_thang_min}$ to $\input{claims/mech_mlp_thang_max}$~dB against interval
+half-widths below half a decibel, so they survive a Bonferroni correction over all
+$\input{claims/mech_so_o_bang8}$ cells; the near-zero cells at
+$\lambda=\input{claims/mech_lam_giao_duoi}$ would not, and we do not build on them.
+Table~\ref{tab:coche} shows the predicted ordering, and shows it for all
+$\input{claims/mech_so_bien_the}$ instantiations. At $n=\input{claims/mech_n_it}$ the KAN
+advantage decays monotonically in $\lambda$ and \emph{changes sign}; on purely interacting
+targets the matched MLP wins by $\input{claims/mech_mlp_thang_min}$ to
+$\input{claims/mech_mlp_thang_max}$~dB, with every interval excluding zero. Where exactly the
+sign flips depends on how the comparison is matched, and we locate it in
+Section~\ref{sec:depth} rather than reading it off this table alone. Spline, Fourier, RBF and Chebyshev edges differ in how large the
+advantage is at $\lambda=0$ but not in where it vanishes, which is what a claim about function
+class rather than about a particular basis should look like.
+
+At $n=\input{claims/mech_n_nhieu}$ the same erosion is present, from
+$\input{claims/mech_spline_n4096_lam0}$~dB at $\lambda=0$ to
+$\input{claims/mech_spline_n4096_lam1}$~dB at $\lambda=1$ for the spline-KAN, but it saturates
+instead of crossing zero. The regime map therefore has \emph{two} axes, not one: interaction
+sets the \emph{size} of the edge-wise advantage, and the training budget decides whether that
+advantage ever reverses.
+
+\input{bang/co-che-dieu-chinh}
+
+Because a KAN that wins at every $\lambda$ invites the obvious objection, we ran the control
+that the objection deserves. Table~\ref{tab:coche-tune} sweeps MLP depth at
+$n=\input{claims/mech_n_nhieu}$, takes the \emph{best} MLP, and gives both models the same
+longer schedule. Tripling the schedule closes only $\input{claims/tune_khep_duoc}$~dB of the
+gap at $\lambda=1$ (from $\input{claims/tune_lam1_60ep}$ to
+$\input{claims/tune_lam1_180ep}$~dB), so the large-sample result is not an artefact of an
+under-tuned baseline.
+
+\subsection{Matching depth, and where the sign actually flips}\label{sec:depth}
+Equations~(\ref{eq:pmlp})--(\ref{eq:pkans}) size models to a common parameter budget, but
+budget is not the only thing a comparison has to match. The MLP used above places two hidden
+layers between input and output, while the KANs place one; the parameter counts agree and the
+depths do not. That matters here because our own sweep (Table~\ref{tab:mlphp}) measures depth
+on the regression task at a scale comparable to several of the effects we are discussing, and
+because the mismatch runs in the direction that flatters the architecture under test.
+
+We therefore repeat the additivity sweep at two matched depths: a one-hidden-layer MLP against
+the two-layer KAN, and the two-hidden-layer MLP against a three-layer KAN, both sized to the
+same $\input{claims/mech_budget}$-parameter budget. The qualitative result is unchanged at both
+depths. At $n=\input{claims/mech_n_it}$ the paired difference moves from
+$\input{claims/depth_d1_n256_lam00}$~dB at $\lambda=0$ to
+$+\input{claims/depth_d1_n256_lam10}$~dB at $\lambda=1$ with one hidden layer, and from
+$\input{claims/depth_d2_n256_lam00}$ to $+\input{claims/depth_d2_n256_lam10}$~dB with two; at
+$n=\input{claims/mech_n_nhieu}$ the KAN wins at every $\lambda$ in both cases
+($\input{claims/depth_d1_n4096_lam10}$ and $\input{claims/depth_d2_n4096_lam10}$~dB at
+$\lambda=1$).
+
+The quantitative correction is to the location of the crossover. Once depth is matched, the MLP
+is already ahead at $\lambda=\input{claims/mech_lam_giao_duoi}$, by
+$+\input{claims/depth_d1_n256_lam05}$~dB at one hidden layer and
+$+\input{claims/depth_d2_n256_lam05}$~dB at two, whereas the depth-mismatched comparison of
+Table~\ref{tab:coche} still favours the KAN slightly there. The sign change is therefore at or
+below $\lambda=\input{claims/mech_lam_giao_duoi}$, not above it, and the unmatched comparison
+was placing it too late. We report the matched numbers as the ones to use.
+
+\subsection{Tuning the other side, where the other side loses}\label{sec:kantune}
+Section~\ref{sec:coche} already gives the MLP a depth sweep and a longer schedule at
+$n=\input{claims/mech_n_nhieu}$, which is where the KAN wins. The symmetric obligation is to
+tune the KAN at $n=\input{claims/mech_n_it}$, which is where it loses, and the first version of
+this work did not discharge it.
+
+We sweep $\input{claims/kantune_so_cau_hinh}$ KAN configurations at the matched budget, four
+Fourier basis orders and four spline grid sizes, at $\lambda=\input{claims/mech_lam_giao_tren}$ and $\lambda=1$. The best
+configuration in both cases is \texttt{\input{claims/kantune_n256_lam10_cau_hinh}}, and it does
+not close the gap: the matched MLP still wins by
+$\input{claims/kantune_n256_lam075_hieu}$~dB at $\lambda=\input{claims/mech_lam_giao_tren}$ and
+$\input{claims/kantune_n256_lam10_hieu}$~dB at $\lambda=1$, with both intervals excluding zero.
+Tuning the KAN buys roughly as much as tuning the MLP bought at the other end of the data axis,
+and in neither case does it change who wins.
+
+\subsection{Reading the wireless regimes through it}
+The experiment is synthetic by design: it buys a controlled axis at the cost of realism, and it
+speaks about function class, not about radio physics. Read against it, the three regimes fall
+where the hypothesis would put them. Memoryless amplitude distortion of the Saleh form is close
+to additive once the signal is expressed in amplitude and phase, which is the regime where the
+Fourier-KAN is competitive at matched capacity. Modulation classification from raw I/Q samples
+is the opposite case: the discriminative information lives in relations \emph{between} samples,
+not in any single coordinate, and that is where flat KANs lose to both a matched MLP and a small
+convolutional network. We stress the direction of this argument: the additivity experiment
+explains the ordering we measured, it does not license a prediction for an unseen task without
+first estimating how additive that task is.
+
 \section{Discussion}\label{sec:discuss}
 % ============================================================================
 \subsection{A regime map}
@@ -713,8 +974,20 @@ tool, not a gimmick. \emph{Where they do not:} at the default budget and basis, 
 and with plentiful data, a same-size MLP is as good or better, so a KAN advantage is never
 automatic. \emph{Where architecture matters more than either:} on structured I/Q
 classification a small CNN with the right inductive bias beats every flat model by a wide
-margin at a fraction of the parameters, so if the task has exploitable structure, the budget
-is better spent on the prior than on the edge parameterization. Layered on top, KAN
+margin, so if the task has exploitable structure, the budget is better spent on the prior than
+on the edge parameterization.
+
+That recommendation owes a word on the axis we have just insisted on. Section~\ref{sec:compute}
+argues that inference cost, not parameter count, is the axis that matters for deployment, and
+on that axis the CNN is the most expensive model in this study, not the cheapest: it takes
+$\input{claims/cnn_infer_ms}$~ms per batch, $\input{claims/cnn_cham_hon_mlp}\times$ the matched
+MLP and $\input{claims/cnn_cham_hon_kanspline}\times$ the slowest KAN, while holding far fewer
+parameters. We recommend it anyway, and the ground is accuracy at an inference cost that is
+still small in absolute terms for a task whose symbol rate is orders of magnitude slower than
+$\input{claims/cnn_infer_ms}$~ms per batch of $\input{claims/compute_batch}$. What we do not do
+is recommend it on the parameter count, which is the metric this paper argues against; a reader
+whose deployment is latency-bound rather than accuracy-bound should read
+Table~\ref{tab:compute} before taking this advice. Layered on top, KAN
 interpretability is real but not free: the edges are genuinely simple, yet the symbolic
 extraction that would make them interpretable costs more than a decibel.
 
@@ -744,9 +1017,28 @@ does not vanish under matched control, but it shrinks to a specific, honest set 
 rather than the blanket superiority usually claimed.
 
 \subsection{Threats to validity}
-We tested three regimes, two KAN variants, and one dataset per regime; a broader sweep (more
-datasets, wavelet or Chebyshev KANs~\cite{wavkan,chebykan}, larger budgets) would refine the
-regime boundaries, and we release the harness to make that cheap. The DPD PA is simulated,
+We tested three wireless regimes with two KAN variants and one dataset per regime, and the
+controlled additivity experiment of Section~\ref{sec:coche} with
+$\input{claims/mech_so_bien_the}$ variants; a broader sweep on the wireless tasks themselves
+(more datasets, Wav-KAN~\cite{wavkan}, larger budgets) would refine the regime boundaries, and
+we release the harness to make that cheap.
+
+Four limits of the controlled experiment deserve to be stated plainly rather than left to be
+discovered. First, its difficulty control is imperfect: the structure-agnostic reference of
+Section~\ref{sec:coche} moves by $\input{claims/ctrl_rf_bien_do_n4096}$~dB across the sweep at
+$n=\input{claims/mech_n_nhieu}$, which is $\input{claims/ctrl_rf_ty_le_n4096}\%$ of the effect
+we attribute to additivity there, so at the large sample size a fifth of the measured decay may
+be difficulty rather than structure. Second, the synthetic family is narrow: one function class
+(degree-two polynomials) at one input dimension
+($d=\input{claims/mech_D}$), chosen so that additivity is the only structural variable, at the
+cost of saying nothing about smoothness, sparsity or heavy tails. Third, the main tables match
+parameters but not depth; Section~\ref{sec:depth} shows the ordering survives matching and that
+the crossover moves when it does, but the wireless tables themselves are not depth-matched.
+Fourth, seed counts are not uniform across the paper: the regression regimes use
+$\input{claims/n_seeds_dpd}$ seeds against $\input{claims/mech_seeds}$ elsewhere and
+$\input{claims/k8_n_seeds}$ for the paired re-test of Section~\ref{sec:abl}, and we would not
+quote a sub-decibel difference from a $\input{claims/n_seeds_dpd}$-seed cell without the paired
+interval that accompanies it. The DPD PA is simulated,
 though from a standard non-polynomial model, so the classical baseline is not privileged; a
 measured PA would strengthen the regression result. The AMC study is capped in sample count
 for tractability. Because our conclusions are two-sided, the main risk is mislocating a
@@ -762,7 +1054,7 @@ six criteria would test that prediction directly and quantify how widespread the
 are. Second, a full DPD linearization loop with ACPR and EVM on a \emph{measured} power
 amplifier, replacing our forward Saleh model, would confirm whether the thin regression
 crossover survives real memory and hysteresis effects. Third, extending the model set to
-wavelet and Chebyshev KANs~\cite{wavkan,chebykan} and adding a real multimodal benchmark such
+Wav-KAN~\cite{wavkan} on the wireless tasks themselves and adding a real multimodal benchmark such
 as DeepSense~6G~\cite{deepsense6g} would probe whether any KAN variant reverses the ordering on
 a task with genuinely exploitable structure. The released harness is designed to make each of
 these a small addition rather than a reimplementation.
@@ -802,17 +1094,31 @@ checks; every genuine KAN win we found survives all six.
 \section{Reproducibility}\label{sec:repro}
 % ============================================================================
 Every number in this paper is produced by a script and checked against a machine-readable
-claims file. The harness (\texttt{harness.py}) implements the KAN variants, the MLP, the
-matched-capacity sizing, the training loop, and the bootstrap statistics; \texttt{exp\_dpd.py},
-\texttt{exp\_amc.py}, and \texttt{exp\_interp.py} produce the main tables and
-Figs.~\ref{fig:dpd}--\ref{fig:interp}, and \texttt{abl\_dpd.py} and \texttt{abl\_amc.py}
+claims file. The harness (\path{harness.py}) implements the KAN variants, the MLP, the
+matched-capacity sizing, the training loop, and the bootstrap statistics; \path{exp_dpd.py},
+\path{exp_amc.py}, and \path{exp_interp.py} produce the main tables and
+Figs.~\ref{fig:dpd}--\ref{fig:interp}, and \path{abl_dpd.py} and \path{abl_amc.py}
 produce the ablations (Table~\ref{tab:kanhp}, Figs.~\ref{fig:budget}--\ref{fig:snr}), each
-from its own result CSV. The RML2016.10a dataset is public~\cite{oshea2016gnuradio}. We list,
-for each table and figure, the exact script and CSV that generate it, and we fix all random
-seeds. The code and a \texttt{claims.json} single-source-of-truth are released so that a
-reader can regenerate the results and verify the paper's numbers against the CSVs. The full
-code, result CSVs, and the claims file are available at
-\url{https://github.com/haodpsut/kan-wireless-benchmark}.
+from its own result CSV. The experiments added in this version follow the same convention:
+\path{exp_mechanism2.py} and \path{exp_mechanism2_tuning.py} produce
+Tables~\ref{tab:coche} and~\ref{tab:coche-tune} of Section~\ref{sec:coche},
+\path{exp_amc_backbone.py} produces the shared-backbone comparison of
+Section~\ref{sec:backbone}, \path{exp_mlp_sweep_all.py} the extended symmetric sweep of
+Section~\ref{sec:sweep-all}, and \path{exp_bigbudget_paired.py} the paired recomputation
+reported in Section~\ref{sec:abl}; \path{variants.py} holds the FastKAN and Cheby-KAN layers.
+The RML2016.10a dataset is public~\cite{oshea2016gnuradio}, and
+\path{prep_rml_band.py} documents the exact SNR band and the content hash of the array used.
+
+The layout of the released material is flat and fixed: experiment scripts and the harness in
+\path{code/}, every result CSV in \path{code/results/} with one file per experiment, raw run
+logs in \path{code/results/logs/}, the manuscript and its figures in \path{paper/}, and one
+number per file in \path{paper/claims/} with \path{paper/claims.json} as the
+single-source-of-truth index. Two tables of Section~\ref{sec:coche} are themselves generated
+from the CSVs by \path{code/sinh_bang_coche.py}, so re-running an experiment changes the
+printed table rather than leaving it stale, and \path{code/verify_numbers.py} checks the
+manuscript text against \path{claims.json}, including that any superlative in the prose points
+at the extremal row of the group it names. We fix all random seeds. Everything above is
+available at \repolink.
 
 % ============================================================================
 \section{Conclusion}\label{sec:concl}
@@ -829,7 +1135,34 @@ chosen benchmarks rather than with a blanket architectural advantage. We hope th
 map, the protocol, and the released harness make the next such claim easier to place, and to
 check, before it is believed.
 
-\bibliographystyle{IEEEtran}
+\section*{CRediT authorship contribution statement}
+\textbf{Phuc Hao Do}: Conceptualization, Methodology, Software, Formal analysis,
+Investigation, Data curation, Visualization, Writing -- original draft,
+Writing -- review and editing.
+
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript
+preparation process}
+During the preparation of this work the author used Claude (Anthropic) to assist with
+code review, refactoring of the experimental harness, and copy-editing of the manuscript.
+The author reviewed and edited all output and takes full responsibility for the content of
+this article. No generative tool was used to produce, alter, or interpret any experimental
+measurement reported here.
+
+\section*{Declaration of competing interest}
+The author declares that he has no known competing financial interests or personal
+relationships that could have appeared to influence the work reported in this paper.
+
+\section*{Funding}
+This research did not receive any specific grant from funding agencies in the public,
+commercial, or not-for-profit sectors.
+
+\section*{Data availability}
+The code, the data-preparation scripts, and the result tables that reproduce every number
+reported in this article are openly available at
+\repolink\ (see Section~\ref{sec:repro} for the mapping from each
+table and figure to the script and result file that produce it).
+
+\bibliographystyle{elsarticle-num}
 \bibliography{refs}
 
 \end{document}

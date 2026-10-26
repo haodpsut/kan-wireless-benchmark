@@ -18,3 +18,11 @@ __pycache__/
 code/results/.ids-*.json
 # figure identity stores
 paper/figs/.methods_*.json
+
+# ban nop cu va ban luu: khong di cung kho cong khai
+NOP-*/
+*.tex.bak
+# phu pham latexmk
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex*

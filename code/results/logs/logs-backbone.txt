@@ -1,0 +1,19 @@
+[kiem] nap rml_band.npz, SHA-256 khop: a0808c1d07f45623...
+N=40000 lop=11 dac trung backbone=192
+tham so TOAN MANG (backbone dung chung + dau):
+   linear (moc, nhu CNN cu)        5291  (dau:   2123)
+   MLP head                       16031  (dau:  12863)
+   KAN-Fourier head               16179  (dau:  13011)
+   KAN-spline head                15348  (dau:  12180)
+linear (moc, nhu CNN cu)     acc=0.6569 +- 0.0059  CI[0.6533,0.6606]
+MLP head                     acc=0.6893 +- 0.0047  CI[0.6863,0.6922]
+KAN-Fourier head             acc=0.2112 +- 0.1907  CI[0.0924,0.3406]
+KAN-spline head              acc=0.6755 +- 0.0084  CI[0.6704,0.6811]
+
+hieu GHEP CAP, duong = dau dau tien tot hon:
+   KAN-Fourier head   - MLP head                 = -0.4781 [-0.5956,-0.3492] -> MLP head
+   KAN-spline head    - MLP head                 = -0.0138 [-0.0192,-0.0075] -> MLP head
+   MLP head           - linear (moc, nhu CNN cu) = +0.0324 [+0.0277,+0.0366] -> MLP head
+   KAN-Fourier head   - linear (moc, nhu CNN cu) = -0.4457 [-0.5619,-0.3180] -> linear (moc, nhu CNN cu)
+
+ghi: /home/daipv/thi-nghiem/kan-wireless/kan-wireless-benchmark/code/results/exp_amc_backbone.csv

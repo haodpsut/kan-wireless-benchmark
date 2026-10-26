@@ -12,6 +12,9 @@ linear interpolation baselines. Multi-seed. Operating SNR chosen non-saturated.
 import numpy as np, torch, csv, os
 from harness import KANreg, KANspline, MLPreg, nparams, match_width, train_reg, bootstrap_ci, paired_diff_ci
 
+N_SEEDS = 10   # doc ngoai vong 1 muc 2(c): 5 hat giong khong du cho bang che do,
+               # vi chinh bai do duoc mot hieu 0,156 dB co sd ghep cap LON HON trung binh
+
 N = 64                 # subcarriers
 PILOT_STEP = 4         # comb pilots -> N/PILOT_STEP pilots
 NP = N // PILOT_STEP
@@ -83,7 +86,7 @@ if __name__ == "__main__":
     print(f"ChEst | din={din} dout={dout} | fKAN={p} sKAN={nparams(KANspline(din,hs,dout))} "
           f"MLP(h={hm})={nparams(MLPreg(din,hm,dout))}")
     res = {"KANspline": [], "KANfourier": [], "MLP": [], "LMMSE": [], "LinInterp": []}
-    for seed in range(5):
+    for seed in range(N_SEEDS):
         Xtr, Ytr = make_dataset(seed); Xte, Yte = make_dataset(200 + seed, NTEST)
         res["KANspline"].append(train_reg(KANspline(din, hs, dout), Xtr, Ytr, Xte, Yte, seed))
         res["KANfourier"].append(train_reg(KANreg(din, H, dout, K), Xtr, Ytr, Xte, Yte, seed))

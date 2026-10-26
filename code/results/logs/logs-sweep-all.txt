@@ -1,0 +1,23 @@
+
+== OFDM channel estimation | ngan sach KAN tham chieu = 30872 ==
+   Fourier-KAN (moc)      : -13.114 +- 0.012 dB
+   MLP depth1-relu h=191 (30879p): -13.222 +- 0.012 dB | KAN-MLP=+0.108 [+0.097,+0.118] -> MLP
+   MLP depth2-relu h=112 (30816p): -13.263 +- 0.012 dB | KAN-MLP=+0.150 [+0.139,+0.158] -> MLP
+   MLP depth3-relu h= 90 (30998p): -13.271 +- 0.013 dB | KAN-MLP=+0.157 [+0.147,+0.166] -> MLP
+   MLP depth2-gelu h=112 (30816p): -13.259 +- 0.013 dB | KAN-MLP=+0.145 [+0.134,+0.155] -> MLP
+   MLP depth2-tanh h=112 (30816p): -13.266 +- 0.016 dB | KAN-MLP=+0.152 [+0.141,+0.162] -> MLP
+   MLP depth4-relu h= 78 (31172p): -13.280 +- 0.015 dB | KAN-MLP=+0.166 [+0.154,+0.177] -> MLP
+   => MLP tot nhat: depth4-relu = -13.280 dB
+[kiem] nap rml_band.npz, SHA-256 khop: a0808c1d07f45623...
+
+== AMC | N=40000 din=256 lop=11 | ngan sach KAN tham chieu = 68395 ==
+   Fourier-KAN (moc)      : acc 0.3517 +- 0.0091
+   MLP depth1-relu h=199 ( 53343p): acc 0.4582 +- 0.0040 | KAN-MLP=-0.1064 [-0.1118,-0.1015] -> MLP
+   MLP depth2-relu h=160 ( 68651p): acc 0.4967 +- 0.0040 | KAN-MLP=-0.1450 [-0.1514,-0.1382] -> MLP
+   MLP depth3-relu h=129 ( 68123p): acc 0.4987 +- 0.0041 | KAN-MLP=-0.1470 [-0.1532,-0.1416] -> MLP
+   MLP depth2-gelu h=160 ( 68651p): acc 0.4946 +- 0.0045 | KAN-MLP=-0.1428 [-0.1492,-0.1358] -> MLP
+   MLP depth2-tanh h=160 ( 68651p): acc 0.4157 +- 0.0041 | KAN-MLP=-0.0640 [-0.0706,-0.0572] -> MLP
+   MLP depth4-relu h=112 ( 67995p): acc 0.5010 +- 0.0035 | KAN-MLP=-0.1493 [-0.1543,-0.1442] -> MLP
+   => MLP tot nhat: depth4-relu = 0.5010
+
+ghi: /home/daipv/thi-nghiem/kan-wireless/kan-wireless-benchmark/code/results/exp_mlp_sweep_all.csv

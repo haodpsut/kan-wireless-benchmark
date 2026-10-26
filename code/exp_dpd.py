@@ -17,6 +17,10 @@ import numpy as np, torch, csv, os
 from harness import (KANreg, KANspline, MLPreg, nparams, match_width, train_reg,
                      bootstrap_ci, paired_diff_ci)
 
+# doc ngoai vong 1 muc 2(c): 5 hat giong khong du cho bang che do, vi chinh bai
+# do duoc mot hieu 0,156 dB co sd ghep cap LON HON trung binh.
+N_SEEDS = 10
+
 L = 5                      # memory window length (samples) -> din = 2L
 SPS = 4                    # samples per symbol
 NSYM = 8000               # symbols per realization
@@ -119,7 +123,7 @@ if __name__ == "__main__":
           f"spline-KAN(h={h_skan})={p_skan} | MLP(h={h_mlp})={p_mlp} | all matched to ~{p_fkan}")
 
     res = {"KANspline": [], "KANfourier": [], "MLP": [], "MemPoly": []}
-    for seed in range(5):
+    for seed in range(N_SEEDS):
         Xtr, Ytr = make_dataset(seed); Xte, Yte = make_dataset(100 + seed)
         res["KANspline"].append(train_reg(KANspline(din, h_skan, 2), Xtr, Ytr, Xte, Yte, seed))
         res["KANfourier"].append(train_reg(KANreg(din, H, 2, K), Xtr, Ytr, Xte, Yte, seed))

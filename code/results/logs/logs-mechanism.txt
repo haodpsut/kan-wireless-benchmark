@@ -1,0 +1,34 @@
+[kiem] phuong sai tin hieu theo lam (phai gan 1,00 o moi lam):
+   lam=0.00  var=1.0280
+   lam=0.10  var=1.0166
+   lam=0.25  var=1.0087
+   lam=0.50  var=1.0001
+   lam=0.75  var=0.9954
+   lam=1.00  var=1.0014
+[kiem] ngan sach tham so khop: {'KAN-spline': 2340, 'KAN-Fourier': 2264, 'MLP': 2323} | muc tieu 2300
+n=  256 lam=0.00 KAN-spline   - MLP =  -3.156 dB [-3.493,-2.740] -> KAN
+n=  256 lam=0.00 KAN-Fourier  - MLP = -14.823 dB [-14.957,-14.677] -> KAN
+n=  256 lam=0.10 KAN-spline   - MLP =  -2.408 dB [-2.706,-2.056] -> KAN
+n=  256 lam=0.10 KAN-Fourier  - MLP =  -6.907 dB [-7.042,-6.773] -> KAN
+n=  256 lam=0.25 KAN-spline   - MLP =  -1.404 dB [-1.624,-1.164] -> KAN
+n=  256 lam=0.25 KAN-Fourier  - MLP =  -3.227 dB [-3.405,-3.056] -> KAN
+n=  256 lam=0.50 KAN-spline   - MLP =  -0.004 dB [-0.167,+0.142] -> khong phan biet duoc
+n=  256 lam=0.50 KAN-Fourier  - MLP =  -0.090 dB [-0.358,+0.179] -> khong phan biet duoc
+n=  256 lam=0.75 KAN-spline   - MLP =  +1.208 dB [+1.056,+1.382] -> MLP
+n=  256 lam=0.75 KAN-Fourier  - MLP =  +1.969 dB [+1.636,+2.331] -> MLP
+n=  256 lam=1.00 KAN-spline   - MLP =  +2.300 dB [+2.090,+2.481] -> MLP
+n=  256 lam=1.00 KAN-Fourier  - MLP =  +3.701 dB [+3.377,+3.965] -> MLP
+n= 4096 lam=0.00 KAN-spline   - MLP = -15.435 dB [-15.953,-14.743] -> KAN
+n= 4096 lam=0.00 KAN-Fourier  - MLP = -15.275 dB [-15.804,-14.562] -> KAN
+n= 4096 lam=0.10 KAN-spline   - MLP = -13.131 dB [-13.911,-12.327] -> KAN
+n= 4096 lam=0.10 KAN-Fourier  - MLP = -11.866 dB [-12.603,-11.062] -> KAN
+n= 4096 lam=0.25 KAN-spline   - MLP = -12.171 dB [-12.748,-11.539] -> KAN
+n= 4096 lam=0.25 KAN-Fourier  - MLP = -10.340 dB [-10.876,-9.785] -> KAN
+n= 4096 lam=0.50 KAN-spline   - MLP = -10.462 dB [-10.924,-10.001] -> KAN
+n= 4096 lam=0.50 KAN-Fourier  - MLP =  -8.134 dB [-8.634,-7.663] -> KAN
+n= 4096 lam=0.75 KAN-spline   - MLP =  -9.268 dB [-9.638,-8.890] -> KAN
+n= 4096 lam=0.75 KAN-Fourier  - MLP =  -6.942 dB [-7.254,-6.656] -> KAN
+n= 4096 lam=1.00 KAN-spline   - MLP =  -4.526 dB [-4.863,-4.156] -> KAN
+n= 4096 lam=1.00 KAN-Fourier  - MLP =  -1.614 dB [-2.068,-1.157] -> KAN
+
+ghi: /home/daipv/thi-nghiem/kan-wireless/kan-wireless-benchmark/code/results/exp_mechanism.csv

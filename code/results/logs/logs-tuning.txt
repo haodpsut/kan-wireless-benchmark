@@ -1,0 +1,27 @@
+KAN-spline h=26 (2340p), ngan sach 2300
+
+epochs=60 lam=0.5: KAN-spline -21.524 +- 0.360 dB
+   MLP depth2-relu h= 43: -11.062 +- 0.676 | KAN-MLP=-10.462 [-10.924,-10.001] -> KAN
+   MLP depth3-relu h= 31: -10.451 +- 0.538 | KAN-MLP=-11.073 [-11.488,-10.691] -> KAN
+   MLP depth4-relu h= 26:  -9.797 +- 1.187 | KAN-MLP=-11.727 [-12.484,-11.044] -> KAN
+   => MLP TOT NHAT depth2-relu: KAN-MLP=-10.462 [-10.924,-10.001] -> KAN
+
+epochs=60 lam=1.0: KAN-spline -21.277 +- 0.272 dB
+   MLP depth2-relu h= 43: -16.751 +- 0.504 | KAN-MLP= -4.526 [-4.863,-4.156] -> KAN
+   MLP depth3-relu h= 31: -16.611 +- 0.680 | KAN-MLP= -4.666 [-5.138,-4.211] -> KAN
+   MLP depth4-relu h= 26: -16.675 +- 0.481 | KAN-MLP= -4.602 [-4.944,-4.264] -> KAN
+   => MLP TOT NHAT depth2-relu: KAN-MLP=-4.526 [-4.863,-4.156] -> KAN
+
+epochs=180 lam=0.5: KAN-spline -24.711 +- 0.124 dB
+   MLP depth2-relu h= 43: -15.205 +- 0.585 | KAN-MLP= -9.506 [-9.847,-9.180] -> KAN
+   MLP depth3-relu h= 31: -14.093 +- 0.685 | KAN-MLP=-10.618 [-11.060,-10.188] -> KAN
+   MLP depth4-relu h= 26: -13.849 +- 0.673 | KAN-MLP=-10.862 [-11.277,-10.480] -> KAN
+   => MLP TOT NHAT depth2-relu: KAN-MLP=-9.506 [-9.847,-9.180] -> KAN
+
+epochs=180 lam=1.0: KAN-spline -24.671 +- 0.125 dB
+   MLP depth2-relu h= 43: -20.667 +- 0.387 | KAN-MLP= -4.003 [-4.248,-3.806] -> KAN
+   MLP depth3-relu h= 31: -20.050 +- 0.494 | KAN-MLP= -4.621 [-4.922,-4.342] -> KAN
+   MLP depth4-relu h= 26: -20.023 +- 0.354 | KAN-MLP= -4.648 [-4.852,-4.446] -> KAN
+   => MLP TOT NHAT depth2-relu: KAN-MLP=-4.003 [-4.248,-3.806] -> KAN
+
+ghi: /home/daipv/thi-nghiem/kan-wireless/kan-wireless-benchmark/code/results/exp_mechanism_tuning.csv

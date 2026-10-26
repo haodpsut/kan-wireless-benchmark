@@ -1,0 +1,71 @@
+[doi chung DO KHO] NMSE cua binh phuong toi thieu bac 2 (mo hinh TRUNG TINH):
+   lam=0.00   -26.205 dB
+   lam=0.25   -26.156 dB
+   lam=0.50   -26.111 dB
+   lam=0.75   -26.067 dB
+   lam=1.00   -26.030 dB
+   => hai dau lam de nhu nhau thi cac so nay gan nhau; lech nhieu la CON confound
+
+[kiem] ngan sach tham so: {'KAN-spline': 2340, 'KAN-Fourier': 2264, 'KAN-fast': 2297, 'KAN-cheby': 2305, 'MLP': 2323} | muc tieu 2300
+
+n=256 lam=0.0: moc LSQ=-25.11 dB | MLP=-0.99 dB
+   KAN-spline   - MLP =  -3.552 dB [-4.012,-2.968] -> KAN
+   KAN-Fourier  - MLP = -12.608 dB [-13.061,-12.106] -> KAN
+   KAN-fast     - MLP =  -9.966 dB [-10.195,-9.704] -> KAN
+   KAN-cheby    - MLP =  -9.310 dB [-9.867,-8.728] -> KAN
+
+n=256 lam=0.25: moc LSQ=-25.07 dB | MLP=-1.28 dB
+   KAN-spline   - MLP =  -1.803 dB [-2.090,-1.501] -> KAN
+   KAN-Fourier  - MLP =  -3.597 dB [-3.800,-3.404] -> KAN
+   KAN-fast     - MLP =  -3.506 dB [-3.710,-3.313] -> KAN
+   KAN-cheby    - MLP =  -3.311 dB [-3.536,-3.106] -> KAN
+
+n=256 lam=0.5: moc LSQ=-25.05 dB | MLP=-1.67 dB
+   KAN-spline   - MLP =  -0.334 dB [-0.599,-0.079] -> KAN
+   KAN-Fourier  - MLP =  -0.522 dB [-0.799,-0.260] -> KAN
+   KAN-fast     - MLP =  -0.649 dB [-0.872,-0.429] -> KAN
+   KAN-cheby    - MLP =  -0.614 dB [-0.864,-0.388] -> KAN
+
+n=256 lam=0.75: moc LSQ=-25.04 dB | MLP=-2.08 dB
+   KAN-spline   - MLP =  +0.926 dB [+0.628,+1.217] -> MLP
+   KAN-Fourier  - MLP =  +1.529 dB [+1.213,+1.839] -> MLP
+   KAN-fast     - MLP =  +1.246 dB [+0.991,+1.501] -> MLP
+   KAN-cheby    - MLP =  +1.262 dB [+0.974,+1.528] -> MLP
+
+n=256 lam=1.0: moc LSQ=-25.05 dB | MLP=-2.53 dB
+   KAN-spline   - MLP =  +1.974 dB [+1.648,+2.281] -> MLP
+   KAN-Fourier  - MLP =  +3.241 dB [+2.985,+3.489] -> MLP
+   KAN-fast     - MLP =  +2.202 dB [+1.878,+2.482] -> MLP
+   KAN-cheby    - MLP =  +2.768 dB [+2.510,+3.010] -> MLP
+
+n=4096 lam=0.0: moc LSQ=-26.07 dB | MLP=-15.01 dB
+   KAN-spline   - MLP = -10.179 dB [-10.435,-9.898] -> KAN
+   KAN-Fourier  - MLP =  -8.277 dB [-8.524,-8.021] -> KAN
+   KAN-fast     - MLP =  -8.102 dB [-8.353,-7.861] -> KAN
+   KAN-cheby    - MLP =  -6.445 dB [-6.671,-6.214] -> KAN
+
+n=4096 lam=0.25: moc LSQ=-26.07 dB | MLP=-15.88 dB
+   KAN-spline   - MLP =  -6.610 dB [-6.819,-6.374] -> KAN
+   KAN-Fourier  - MLP =  -4.649 dB [-4.895,-4.383] -> KAN
+   KAN-fast     - MLP =  -6.229 dB [-6.649,-5.757] -> KAN
+   KAN-cheby    - MLP =  -3.991 dB [-4.177,-3.797] -> KAN
+
+n=4096 lam=0.5: moc LSQ=-26.06 dB | MLP=-16.32 dB
+   KAN-spline   - MLP =  -5.302 dB [-5.481,-5.112] -> KAN
+   KAN-Fourier  - MLP =  -3.265 dB [-3.564,-2.935] -> KAN
+   KAN-fast     - MLP =  -5.804 dB [-6.023,-5.578] -> KAN
+   KAN-cheby    - MLP =  -3.227 dB [-3.414,-3.031] -> KAN
+
+n=4096 lam=0.75: moc LSQ=-26.03 dB | MLP=-16.78 dB
+   KAN-spline   - MLP =  -4.462 dB [-4.734,-4.199] -> KAN
+   KAN-Fourier  - MLP =  -2.378 dB [-2.661,-2.060] -> KAN
+   KAN-fast     - MLP =  -5.524 dB [-5.802,-5.231] -> KAN
+   KAN-cheby    - MLP =  -2.883 dB [-3.098,-2.674] -> KAN
+
+n=4096 lam=1.0: moc LSQ=-25.99 dB | MLP=-16.82 dB
+   KAN-spline   - MLP =  -4.752 dB [-5.221,-4.272] -> KAN
+   KAN-Fourier  - MLP =  -2.278 dB [-2.794,-1.710] -> KAN
+   KAN-fast     - MLP =  -6.624 dB [-7.016,-6.151] -> KAN
+   KAN-cheby    - MLP =  -3.303 dB [-3.696,-2.876] -> KAN
+
+ghi: /home/daipv/thi-nghiem/kan-wireless/kan-wireless-benchmark/code/results/exp_mechanism2.csv

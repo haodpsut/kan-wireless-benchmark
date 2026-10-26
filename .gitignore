@@ -29,3 +29,6 @@ paper/*.synctex*
 
 # ho so nop va doc ngoai: ghi chu noi bo, KHONG len kho cong khai
 submit-NEUCOM/
+
+# thu ngo la thu tu gui bien tap, khong phai hien vat tai lap
+paper/cover-letter.*

@@ -1,7 +1,7 @@
 # kan-wireless-benchmark
 
-Reproducibility artifact for **"When Does a Kolmogorov--Arnold Network Help in Wireless?
-A Parameter-Matched, Non-Saturated Benchmark."**
+Reproducibility artifact for **"When Do Kolmogorov--Arnold Networks Help in Wireless?
+A Matched-Capacity, Non-Saturated Benchmark."**
 
 An honest-measurement benchmark of Kolmogorov--Arnold networks (KANs) against
 parameter-matched baselines across two wireless regimes (power-amplifier behavioral modeling
